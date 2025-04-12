@@ -25,12 +25,12 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
         this.token = plugin.getConfig().getString("deepseek.token", null);
         this.aiModel = plugin.getConfig().getString("deepseek.model", "deepseek-chat");
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
+        logger.info("Using model: " + aiModel);
     }
 
     @Override
     public String getResponse(String message) {
         logger.info("Getting response from DeepSeek API...");
-        logger.info("Using model: " + aiModel);
 
         try {
             URI uri = URI.create("https://api.deepseek.com/v1/chat/completions");
