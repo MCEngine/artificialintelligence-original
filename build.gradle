@@ -1,0 +1,122 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'java'
+}
+
+// Set project version using a property, defaulting to 'unspecified' if not found
+version = '1.0.0-SNAPSHOT'
+group = 'io.github.mcengine'
+
+allprojects {
+    group = 'io.github.mcengine'
+
+    apply plugin: 'java'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+
+        // SpigotMC repository for Bukkit and Spigot dependencies
+        maven {
+            url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots'
+            content {
+                includeGroup 'org.bukkit'
+                includeGroup 'org.spigotmc'
+            }
+        }
+
+        // Additional Maven repositories
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        maven { url 'https://oss.sonatype.org/content/repositories/central' }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    // Disable default JAR task if necessary
+    tasks.named('jar').configure {
+        enabled = false
+    }
+
+    // Configure Shadow JAR plugin
+    tasks.named('shadowJar').configure {
+        archiveClassifier = null
+        if (project.path == ':server:spigotmc:engine') {
+            destinationDirectory = file("${rootProject.buildDir}/libs")
+        }
+    }
+
+    // Publishing setup for mcengine-artificialintelligence-api
+    if (project.name == 'mcengine-artificialintelligence-api') {
+        apply plugin: 'maven-publish'
+
+        publishing {
+            repositories {
+                maven {
+                    name = 'GitHubPackages'
+                    url = uri('https://maven.pkg.github.com/MCEngine/artificialintelligence')
+                    credentials {
+                        username = System.getenv('GIT_USERNAME')
+                        password = System.getenv('MCENGINE_GITHUB_TOKEN_PKG_PUBLISH_ARTIFICIALINTELIGENCE') ?:
+                                  System.getenv('MCENGINE_GITHUB_TOKEN_PKG_PUBLISH')
+                    }
+                }
+            }
+            publications {
+                mavenJava(MavenPublication) {
+                    artifact(tasks.named('shadowJar').get())
+
+                    pom {
+                        name.set('MCEngine Artificial Intelligence API')
+                        description.set('API for Artificial Intelligence operations in MCEngine projects')
+                        url.set('https://github.com/MCEngine/artificialintelligence')
+
+                        scm {
+                            connection.set('scm:git:git://github.com/MCEngine/artificialintelligence.git')
+                            developerConnection.set('scm:git:ssh://github.com:MCEngine/artificialintelligence.git')
+                            url.set('https://github.com/MCEngine/artificialintelligence')
+                        }
+
+                        developers {
+                            developer {
+                                id.set('JetsadaWijit')
+                                name.set('Jetsada Wijit')
+                                email.set('jetsadawijit@outlook.com')
+                                url.set('https://github.com/JetsadaWijit')
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Root project dependencies
+dependencies {
+    implementation project(path: ':mcengine-artificialintelligence-api', configuration: 'shadow')
+    implementation project(path: ':common', configuration: 'shadow')
+
+    def platformModules = ['spigotmc']
+    platformModules.each { platform ->
+        implementation project(path: ":server:${platform}:engine", configuration: 'shadow')
+    }
+}
+
+// Root shadow JAR configuration
+shadowJar {
+    version = version
+    archiveClassifier = null
+    archiveBaseName.set('MCEngineArtificialIntelligence')
+}
+
+// Disable default JAR task if necessary
+tasks.named('jar').configure {
+    enabled = false
+}
+
+// Ensure build depends on shadow JAR
+build.dependsOn(shadowJar)

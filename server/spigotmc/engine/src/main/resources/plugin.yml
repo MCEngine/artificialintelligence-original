@@ -1,0 +1,6 @@
+name: MCEngineArtificialIntelligence
+version: ${version}
+main: io.github.mcengine.spigotmc.artificialintelligence.engine.MCEngineArtificialIntelligenceSpigotMC
+author: MCEngine
+description: MCEngine Artificial Intelligence
+api-version: 1.18

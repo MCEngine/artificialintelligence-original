@@ -1,0 +1,109 @@
+#################
+## Build tools ##
+#################
+
+# Gradle
+.gradle/
+gradle/
+build/
+
+# Maven
+target/
+.mvn/wrapper/
+# Ignore build-specific properties for Maven
+pom.xml.versionBackup
+release.properties
+pom.xml.tag
+pom.xml.next
+pom.xml.releaseBackup
+pom.xml.branch
+# Ignore Maven log files
+mvn*.log*
+# Ignore Maven user-specific settings
+.m2/
+
+##################
+## engine tools ##
+##################
+
+# Eclipse
+.settings/
+*.project
+*.classpath
+
+# NetBeans
+nbproject/
+
+# intellij
+.idea/
+
+# Visual Studio
+.vscode/
+
+# Build results
+*_i.c
+*_p.c
+*.ilk
+*.iml
+*.ipr
+*.iws
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.vspscc
+.builds
+*.dotCover
+
+############
+## System ##
+############
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Mac
+.DS_Store
+
+###########
+## Misc. ##
+###########
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+############
+## Ignore ##
+############
+
+# generated documentation
+/site/
+bin/

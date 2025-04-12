@@ -1,0 +1,19 @@
+plugins {
+    id 'java-library'
+}
+
+version = '1.0.0-SNAPSHOT'
+
+dependencies {
+    // Database
+    compileOnly 'mysql:mysql-connector-java:8.0.33'
+    compileOnly 'org.xerial:sqlite-jdbc:3.49.1.0'
+
+    // Server Platform
+    compileOnly 'org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT'
+}
+
+shadowJar {
+    version = version
+    archiveBaseName.set('MCEngineArtificialintelligence-Api')
+}

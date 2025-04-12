@@ -1,0 +1,20 @@
+rootProject.name = 'mcengine-artificialintelligence'
+
+// Define base directories for subprojects
+def coreProjects = ['mcengine-artificialintelligence-api', 'common']
+coreProjects.each {
+    include ":$it"
+}
+
+// Helper to include subprojects in a given path with correct project prefix
+def includeSubprojects(String platform) {
+    file("server/${platform}").eachDir { dir ->
+        def projectPath = ":server:${platform}:${dir.name}"
+        include projectPath
+        project(projectPath).projectDir = dir
+    }
+}
+
+// Include all subprojects for PaperMC and SpigotMC
+def platformModules = ['spigotmc']
+platformModules.each { includeSubprojects(it) }
