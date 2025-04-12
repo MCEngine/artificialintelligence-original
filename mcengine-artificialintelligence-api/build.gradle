@@ -9,6 +9,9 @@ dependencies {
     compileOnly 'mysql:mysql-connector-java:8.0.33'
     compileOnly 'org.xerial:sqlite-jdbc:3.49.1.0'
 
+    // https://mvnrepository.com/artifact/org.json/json
+    compileOnly 'org.json:json:20250107'
+
     // Server Platform
     compileOnly 'org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT'
 }
