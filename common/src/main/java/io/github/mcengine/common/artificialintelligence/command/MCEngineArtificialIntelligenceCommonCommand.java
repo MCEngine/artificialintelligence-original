@@ -6,12 +6,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecutor {
 
+    private final Plugin plugin;
     private final MCEngineArtificialIntelligenceApi aiApi;
 
-    public MCEngineArtificialIntelligenceCommonCommand(MCEngineArtificialIntelligenceApi aiApi) {
+    public MCEngineArtificialIntelligenceCommonCommand(Plugin plugin, MCEngineArtificialIntelligenceApi aiApi) {
+        this.plugin = plugin;
         this.aiApi = aiApi;
     }
 
@@ -35,13 +39,34 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
         }
 
         String message = String.join(" ", args);
-        String response = aiApi.getResponse(message);
 
-        if (response == null || response.isEmpty()) {
-            player.sendMessage(ChatColor.RED + "AI did not respond.");
-        } else {
-            player.sendMessage(ChatColor.GREEN + "AI: " + ChatColor.WHITE + response);
-        }
+        // Run the API call asynchronously
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                String response;
+                try {
+                    response = aiApi.getResponse(message);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    player.sendMessage(ChatColor.RED + "Error while contacting AI.");
+                    return;
+                }
+
+                if (response == null || response.isEmpty()) {
+                    response = "No response from AI.";
+                }
+
+                String finalResponse = response;
+                // Send response back on the main thread
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        player.sendMessage(ChatColor.GREEN + "[AI]: " + ChatColor.WHITE + finalResponse);
+                    }
+                }.runTask(plugin); // runs on main thread
+            }
+        }.runTaskAsynchronously(plugin);
 
         return true;
     }
