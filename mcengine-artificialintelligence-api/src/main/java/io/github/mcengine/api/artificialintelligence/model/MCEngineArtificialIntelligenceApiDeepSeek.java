@@ -30,6 +30,7 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
     @Override
     public String getResponse(String message) {
         logger.info("Getting response from DeepSeek API...");
+        logger.info("Using model: " + aiModel);
 
         try {
             URI uri = URI.create("https://api.deepseek.com/v1/chat/completions");
