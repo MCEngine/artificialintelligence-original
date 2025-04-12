@@ -17,11 +17,13 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
 
     private final Plugin plugin;
     private final String token;
+    private final String aiModel;
     private final MCEngineArtificialIntelligenceApiUtil logger;
 
     public MCEngineArtificialIntelligenceApiDeepSeek(Plugin plugin) {
         this.plugin = plugin;
         this.token = plugin.getConfig().getString("deepseek.token", null);
+        this.aiModel = plugin.getConfig().getString("deepseek.model", "deepseek-chat");
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
     }
 
@@ -40,7 +42,7 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
             conn.setDoOutput(true);
 
             JSONObject payload = new JSONObject();
-            payload.put("model", "deepseek-chat");
+            payload.put("model", aiModel);
             payload.put("temperature", 0.7);
 
             JSONArray messages = new JSONArray();
