@@ -1,20 +1,22 @@
-package io.github.mcengine.api.artificialintelligence;
+package io.github.mcengine.api.artificialintelligence.model;
 
-
+import io.github.mcengine.api.artificialintelligence.IMCEngineArtificialIntelligenceApi;
 import io.github.mcengine.api.artificialintelligence.util.MCEngineArtificialIntelligenceApiUtil;
-
 import org.bukkit.plugin.Plugin;
 
-import java.util.logging.Logger;
-
-public class MCEngineArtificialIntelligenceApi {
+public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtificialIntelligenceApi {
 
     private final Plugin plugin;
     private final MCEngineArtificialIntelligenceApiUtil logger;
 
-    public MCEngineArtificialIntelligenceApi(Plugin plugin) {
+    public MCEngineArtificialIntelligenceApiDeepSeek(Plugin plugin) {
         this.plugin = plugin;
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
+    }
+
+    public String getResponse() {
+        logger.info("Getting response from DeepSeek API...");
+        return null;
     }
 
     public void info(String message) {
@@ -24,7 +26,7 @@ public class MCEngineArtificialIntelligenceApi {
     public void warn(String message) {
         logger.warn(message);
     }
-    
+
     public void error(String message) {
         logger.error(message);
     }
