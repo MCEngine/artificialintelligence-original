@@ -22,8 +22,15 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
             return true;
         }
 
+        Player player = (Player) sender;
+
+        if (!player.hasPermission("mcengine.artificialintelligence.deepseek")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
+            return true;
+        }
+
         if (args.length == 0) {
-            sender.sendMessage(ChatColor.YELLOW + "Usage: /ai <message>");
+            player.sendMessage(ChatColor.YELLOW + "Usage: /ai <message>");
             return true;
         }
 
@@ -31,9 +38,9 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
         String response = aiApi.getResponse(message);
 
         if (response == null || response.isEmpty()) {
-            sender.sendMessage(ChatColor.RED + "AI did not respond.");
+            player.sendMessage(ChatColor.RED + "AI did not respond.");
         } else {
-            sender.sendMessage(ChatColor.GREEN + "AI: " + ChatColor.WHITE + response);
+            player.sendMessage(ChatColor.GREEN + "AI: " + ChatColor.WHITE + response);
         }
 
         return true;
