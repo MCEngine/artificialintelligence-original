@@ -49,6 +49,28 @@ subprojects {
         }
     }
 
+    afterEvaluate {
+        def serverPlatforms = ['spigotmc',]
+        serverPlatforms.each { platform ->
+            if (project.path == ":server:${platform}:engine") {
+                dependencies {
+                    implementation project(path: ':mcengine-artificialintelligence-api', configuration: 'shadow')
+                    implementation project(path: ':common', configuration: 'shadow')
+
+                    def platformDir = rootProject.file("server/${platform}")
+                    if (platformDir.exists()) {
+                        platformDir.eachDir { versionDir ->
+                            if (versionDir.name != 'engine') {
+                                def versionPath = ":server:${platform}:${versionDir.name}"
+                                implementation project(path: versionPath, configuration: 'shadow')
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // Publishing setup for mcengine-artificialintelligence-api
     if (project.name == 'mcengine-artificialintelligence-api') {
         apply plugin: 'maven-publish'

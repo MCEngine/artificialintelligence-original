@@ -5,8 +5,6 @@ plugins {
 version = '1.0.0-SNAPSHOT'
 
 dependencies {
-    compileOnly project(':mcengine-artificialintelligence-api')
-    compileOnly project(':common')
     compileOnly 'org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT'
 }
 
