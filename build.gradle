@@ -44,9 +44,6 @@ subprojects {
     // Configure Shadow JAR plugin
     tasks.named('shadowJar').configure {
         archiveClassifier = null
-        if (project.path == ':server:spigotmc:engine') {
-            destinationDirectory = file("${rootProject.buildDir}/libs")
-        }
     }
 
     afterEvaluate {
