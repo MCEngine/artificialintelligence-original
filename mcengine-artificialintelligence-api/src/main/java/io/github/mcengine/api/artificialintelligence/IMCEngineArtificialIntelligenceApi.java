@@ -1,5 +1,5 @@
 package io.github.mcengine.api.artificialintelligence;
 
 public interface IMCEngineArtificialIntelligenceApi {
-    String getResponse();
+    String getResponse(String message);
 }

@@ -7,14 +7,16 @@ import org.bukkit.plugin.Plugin;
 public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtificialIntelligenceApi {
 
     private final Plugin plugin;
+    private final String token;
     private final MCEngineArtificialIntelligenceApiUtil logger;
 
     public MCEngineArtificialIntelligenceApiDeepSeek(Plugin plugin) {
         this.plugin = plugin;
+        this.token = plugin.getConfig().getString("deepseek.token", null);
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
     }
 
-    public String getResponse() {
+    public String getResponse(String message) {
         logger.info("Getting response from DeepSeek API...");
         return null;
     }
