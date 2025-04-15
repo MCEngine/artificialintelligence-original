@@ -4,11 +4,22 @@ import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntellige
 import io.github.mcengine.common.artificialintelligence.command.MCEngineArtificialIntelligenceCommonCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Main class for the MCEngineArtificialIntelligence plugin on SpigotMC.
+ * This class initializes and manages the AI engine, including configuration and command registration.
+ */
 public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
 
+    /** Singleton instance of the plugin. */
     private static MCEngineArtificialIntelligenceSpigotMC instance;
+
+    /** API for accessing and managing AI functionality. */
     private MCEngineArtificialIntelligenceApi artificialintelligenceApi;
 
+    /**
+     * Called when the plugin is enabled. Initializes configuration,
+     * sets up the AI engine, and registers the /ai command.
+     */
     @Override
     public void onEnable() {
         instance = this;
@@ -29,15 +40,28 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
         }
     }
 
+    /**
+     * Called when the plugin is disabled. Used for cleanup or shutdown routines.
+     */
     @Override
     public void onDisable() {
         getLogger().info("AI Engine disabled.");
     }
 
+    /**
+     * Returns the singleton instance of the plugin.
+     *
+     * @return The current instance of {@link MCEngineArtificialIntelligenceSpigotMC}.
+     */
     public static MCEngineArtificialIntelligenceSpigotMC getInstance() {
         return instance;
     }
 
+    /**
+     * Gets the initialized AI API instance.
+     *
+     * @return The {@link MCEngineArtificialIntelligenceApi} used by this plugin.
+     */
     public MCEngineArtificialIntelligenceApi getArtificialIntelligenceApi() {
         return artificialintelligenceApi;
     }

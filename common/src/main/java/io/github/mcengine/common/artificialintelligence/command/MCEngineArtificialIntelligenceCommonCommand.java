@@ -9,16 +9,39 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * Command executor for the /ai command, allowing players to interact with an AI via chat.
+ * Sends user messages to the AI and displays the response asynchronously.
+ */
 public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecutor {
 
+    /** The Bukkit plugin instance. */
     private final Plugin plugin;
+
+    /** The AI API used to handle chat requests. */
     private final MCEngineArtificialIntelligenceApi aiApi;
 
+    /**
+     * Constructs the command executor with the plugin context and AI API.
+     *
+     * @param plugin The plugin registering this command.
+     * @param aiApi  The AI API used to get responses.
+     */
     public MCEngineArtificialIntelligenceCommonCommand(Plugin plugin, MCEngineArtificialIntelligenceApi aiApi) {
         this.plugin = plugin;
         this.aiApi = aiApi;
     }
 
+    /**
+     * Executes the /ai command.
+     * Verifies permissions, constructs the message, and retrieves an AI response asynchronously.
+     *
+     * @param sender  The command sender.
+     * @param command The command being executed.
+     * @param label   The alias of the command used.
+     * @param args    The message arguments provided by the user.
+     * @return true if the command was handled; false otherwise.
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -40,7 +63,7 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
 
         String message = String.join(" ", args);
 
-        // Run the API call asynchronously
+        // Run the AI call asynchronously to avoid blocking the main thread
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -58,13 +81,13 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
                 }
 
                 String finalResponse = response;
-                // Send response back on the main thread
+                // Send the response back to the player on the main thread
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         player.sendMessage(ChatColor.GREEN + "[AI]: " + ChatColor.WHITE + finalResponse);
                     }
-                }.runTask(plugin); // runs on main thread
+                }.runTask(plugin);
             }
         }.runTaskAsynchronously(plugin);
 

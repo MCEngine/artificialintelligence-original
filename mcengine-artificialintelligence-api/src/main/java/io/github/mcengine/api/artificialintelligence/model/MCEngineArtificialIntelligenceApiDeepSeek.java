@@ -13,13 +13,29 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
+/**
+ * DeepSeek implementation of {@link IMCEngineArtificialIntelligenceApi}.
+ * This class communicates with the DeepSeek API to fetch AI-generated responses based on user prompts.
+ */
 public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtificialIntelligenceApi {
 
+    /** The Bukkit plugin instance using this AI model. */
     private final Plugin plugin;
+
+    /** The API token used for authentication with DeepSeek. */
     private final String token;
+
+    /** The AI model ID configured in the plugin config. */
     private final String aiModel;
+
+    /** Logger utility to log information, warnings, and errors. */
     private final MCEngineArtificialIntelligenceApiUtil logger;
 
+    /**
+     * Constructs a DeepSeek API handler using the plugin's configuration.
+     *
+     * @param plugin The plugin that provides configuration and context.
+     */
     public MCEngineArtificialIntelligenceApiDeepSeek(Plugin plugin) {
         this.plugin = plugin;
         this.token = plugin.getConfig().getString("deepseek.token", null);
@@ -28,6 +44,12 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
         logger.info("Using model: " + aiModel);
     }
 
+    /**
+     * Sends a user message to the DeepSeek API and retrieves the AI's response.
+     *
+     * @param message The user message or prompt to send.
+     * @return The AI's response as a string, or an error message if the request fails.
+     */
     @Override
     public String getResponse(String message) {
         logger.info("Getting response from DeepSeek API...");
@@ -42,6 +64,7 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
 
+            // Construct JSON payload
             JSONObject payload = new JSONObject();
             payload.put("model", aiModel);
             payload.put("temperature", 0.7);
@@ -53,6 +76,7 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
             messages.put(userMessage);
             payload.put("messages", messages);
 
+            // Send request body
             try (OutputStream os = conn.getOutputStream()) {
                 byte[] input = payload.toString().getBytes("utf-8");
                 os.write(input, 0, input.length);
@@ -64,6 +88,7 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
                 return "Error: Unable to get response from DeepSeek API";
             }
 
+            // Read response
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             StringBuilder responseBuilder = new StringBuilder();
             String line;
@@ -73,6 +98,7 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
             }
             in.close();
 
+            // Parse response
             JSONObject responseJson = new JSONObject(responseBuilder.toString());
             JSONArray choices = responseJson.getJSONArray("choices");
 
@@ -88,14 +114,29 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
         }
     }
 
+    /**
+     * Logs an informational message using the internal logger.
+     *
+     * @param message The message to log.
+     */
     public void info(String message) {
         logger.info(message);
     }
 
+    /**
+     * Logs a warning message using the internal logger.
+     *
+     * @param message The message to log.
+     */
     public void warn(String message) {
         logger.warn(message);
     }
 
+    /**
+     * Logs an error message using the internal logger.
+     *
+     * @param message The message to log.
+     */
     public void error(String message) {
         logger.error(message);
     }
