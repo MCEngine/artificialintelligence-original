@@ -17,6 +17,7 @@
                 "workbench.colorTheme": "Default Dark Modern"
             },
             "extensions": [
+                "ms-azuretools.vscode-docker",
                 "MCEngine.mcengine-vscode-extension-pack"
             ]
         }
