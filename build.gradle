@@ -7,6 +7,21 @@ plugins {
 version = '1.0.1-RELEASE'
 group = 'io.github.mcengine'
 
+ext {
+    /* Name */
+    git_user_name = System.getenv('GIT_USER_NAME') ?: 'null'
+    git_organization_name = System.getenv('GIT_ORGANIZATION_NAME') ?: 'MCEngine'
+    git_repository_name = System.getenv('GIT_REPOSITORY_NAME') ?: 'artificialintelligence'
+
+    /* Token */
+    git_user_token = System.getenv('GIT_USER_TOKEN') ?: 'null'
+    git_organization_token = System.getenv('GIT_ORGANIZATION_TOKEN') ?: 'null'
+    git_repository_token = System.getenv('GIT_REPOSITORY_TOKEN') ?: 'null'
+
+    /* Project Information */
+    jarName = System.getenv('PROJECT_NAME') ?: 'MCEngineArtificialIntelligence'
+}
+
 allprojects {
     group = 'io.github.mcengine'
 
@@ -76,11 +91,12 @@ subprojects {
             repositories {
                 maven {
                     name = 'GitHubPackages'
-                    url = uri('https://maven.pkg.github.com/MCEngine/artificialintelligence')
+                    url = uri("https://maven.pkg.github.com/${project.git_organization_name}/${project.git_repository_name}")
                     credentials {
-                        username = System.getenv('GIT_USERNAME')
-                        password = System.getenv('MCENGINE_GITHUB_TOKEN_PKG_PUBLISH_ARTIFICIALINTELIGENCE') ?:
-                                  System.getenv('MCENGINE_GITHUB_TOKEN_PKG_PUBLISH')
+                        username = System.getenv(project.git_user_name)
+                        password = System.getenv(project.git_user_token)
+                                ?: System.getenv(project.git_repository_token)
+                                ?: System.getenv(project.git_organization_token)
                     }
                 }
             }
@@ -89,22 +105,21 @@ subprojects {
                     artifact(tasks.named('shadowJar').get())
 
                     pom {
-                        name.set('MCEngine Artificial Intelligence API')
-                        description.set('API for Artificial Intelligence operations in MCEngine projects')
-                        url.set('https://github.com/MCEngine/artificialintelligence')
+                        name = 'MCEnginebackpack'
+                        url = "https://github.com/${project.git_organization_name}/${project.git_repository_name}"
 
                         scm {
-                            connection.set('scm:git:git://github.com/MCEngine/artificialintelligence.git')
-                            developerConnection.set('scm:git:ssh://github.com:MCEngine/artificialintelligence.git')
-                            url.set('https://github.com/MCEngine/artificialintelligence')
+                            connection = "scm:git:git://github.com/${project.git_organization_name}/${project.git_repository_name}.git"
+                            developerConnection = "scm:git:ssh://github.com:${project.git_organization_name}/${project.git_repository_name}.git"
+                            url = "https://github.com/${project.git_organization_name}/${project.git_repository_name}"
                         }
 
                         developers {
                             developer {
-                                id.set('JetsadaWijit')
-                                name.set('Jetsada Wijit')
-                                email.set('jetsadawijit@outlook.com')
-                                url.set('https://github.com/JetsadaWijit')
+                                id = 'jetsadawijit'
+                                name = 'Jetsada Wijit'
+                                email = 'jetsadawijit@outlook.com'
+                                url = 'https://jetsadawijit.github.io'
                             }
                         }
                     }
@@ -129,7 +144,7 @@ dependencies {
 shadowJar {
     version = version
     archiveClassifier = null
-    archiveBaseName.set('MCEngineArtificialIntelligence')
+    archiveBaseName = project.jarName
 }
 
 // Disable default JAR task if necessary
