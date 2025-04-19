@@ -1,3 +1,5 @@
+enable: false
+
 ai: deepseek
 
 deepseek:

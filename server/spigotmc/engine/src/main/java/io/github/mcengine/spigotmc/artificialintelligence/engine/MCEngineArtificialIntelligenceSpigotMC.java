@@ -28,6 +28,12 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
         // Save default config if not already present
         saveDefaultConfig();
 
+        if (!getConfig().getBoolean("enable", true)) {
+            getLogger().info("Plugin disabled via config.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         try {
             artificialintelligenceApi = new MCEngineArtificialIntelligenceApi(this);
             ThreadPoolManager threadPoolManager = new ThreadPoolManager(this);
