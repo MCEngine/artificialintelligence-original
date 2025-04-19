@@ -3,6 +3,7 @@ package io.github.mcengine.spigotmc.artificialintelligence.engine;
 import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
 import io.github.mcengine.api.artificialintelligence.ThreadPoolManager;
 import io.github.mcengine.common.artificialintelligence.command.MCEngineArtificialIntelligenceCommonCommand;
+import io.github.mcengine.common.artificialintelligence.listener.MCEngineArtificialIntelligenceCommonListenerConversation;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -39,6 +40,9 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
             ThreadPoolManager threadPoolManager = new ThreadPoolManager(this);
             getLogger().info("AI Engine initialized successfully.");
 
+            getServer().getPluginManager().registerEvents(
+                new MCEngineArtificialIntelligenceCommonListenerConversation(), this
+                );
             getCommand("ai").setExecutor(
                 new MCEngineArtificialIntelligenceCommonCommand(this, artificialintelligenceApi, threadPoolManager)
             );
