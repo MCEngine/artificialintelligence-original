@@ -39,4 +39,9 @@ public class ConversationManager {
     public static boolean isActive(Player player) {
         return activePlayers.contains(player.getUniqueId());
     }
+
+    public static void terminate(Player player) {
+        end(player);
+        deactivate(player);
+    }
 }

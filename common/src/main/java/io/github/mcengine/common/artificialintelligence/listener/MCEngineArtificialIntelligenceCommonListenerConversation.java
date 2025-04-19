@@ -43,8 +43,7 @@ public class MCEngineArtificialIntelligenceCommonListenerConversation implements
         player.sendMessage(ChatColor.GRAY + "[You → AI]: " + ChatColor.WHITE + message); // Optional: Feedback
 
         if (message.equalsIgnoreCase("quit")) {
-            ConversationManager.deactivate(player);
-            ConversationManager.end(player);
+            ConversationManager.terminate(player);
             new BukkitRunnable() {
                 @Override
                 public void run() {
