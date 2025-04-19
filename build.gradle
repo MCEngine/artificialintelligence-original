@@ -93,10 +93,10 @@ subprojects {
                     name = 'GitHubPackages'
                     url = uri("https://maven.pkg.github.com/${project.git_organization_name}/${project.git_repository_name}")
                     credentials {
-                        username = System.getenv(project.git_user_name)
-                        password = System.getenv(project.git_user_token)
-                                ?: System.getenv(project.git_repository_token)
-                                ?: System.getenv(project.git_organization_token)
+                        username = project.git_user_name
+                        password = project.git_user_token
+                                ?: project.git_repository_token
+                                ?: project.git_organization_token
                     }
                 }
             }
