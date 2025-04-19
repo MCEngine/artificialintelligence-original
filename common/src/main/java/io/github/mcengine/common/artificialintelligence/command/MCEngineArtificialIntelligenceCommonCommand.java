@@ -1,6 +1,7 @@
 package io.github.mcengine.common.artificialintelligence.command;
 
 import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
+import io.github.mcengine.api.artificialintelligence.ThreadPoolManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,37 +11,42 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- * Command executor for the /ai command, allowing players to interact with an AI via chat.
- * Sends user messages to the AI and displays the response asynchronously.
+ * Command executor for the /ai command.
+ * This allows players to interact with an AI model by sending a message and receiving a response.
+ * All AI communication is performed asynchronously to avoid blocking the main thread.
  */
 public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecutor {
 
-    /** The Bukkit plugin instance. */
+    /** The Bukkit plugin instance used for context and scheduling. */
     private final Plugin plugin;
 
     /** The AI API used to handle chat requests. */
     private final MCEngineArtificialIntelligenceApi aiApi;
 
+    /** Thread pool manager for offloading heavy/long tasks. */
+    private final ThreadPoolManager threadPoolManager;
+
     /**
-     * Constructs the command executor with the plugin context and AI API.
+     * Constructs the AI command executor.
      *
-     * @param plugin The plugin registering this command.
-     * @param aiApi  The AI API used to get responses.
+     * @param plugin            The plugin instance.
+     * @param aiApi             The AI API to communicate with.
+     * @param threadPoolManager The shared thread pool for executing async tasks.
      */
-    public MCEngineArtificialIntelligenceCommonCommand(Plugin plugin, MCEngineArtificialIntelligenceApi aiApi) {
+    public MCEngineArtificialIntelligenceCommonCommand(Plugin plugin, MCEngineArtificialIntelligenceApi aiApi, ThreadPoolManager threadPoolManager) {
         this.plugin = plugin;
         this.aiApi = aiApi;
+        this.threadPoolManager = threadPoolManager;
     }
 
     /**
-     * Executes the /ai command.
-     * Verifies permissions, constructs the message, and retrieves an AI response asynchronously.
+     * Handles the /ai command.
      *
-     * @param sender  The command sender.
-     * @param command The command being executed.
-     * @param label   The alias of the command used.
-     * @param args    The message arguments provided by the user.
-     * @return true if the command was handled; false otherwise.
+     * @param sender  The sender of the command.
+     * @param command The command object.
+     * @param label   The alias used for the command.
+     * @param args    Arguments passed to the command.
+     * @return true if the command was executed successfully.
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -63,33 +69,36 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
 
         String message = String.join(" ", args);
 
-        // Run the AI call asynchronously to avoid blocking the main thread
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                String response;
-                try {
-                    response = aiApi.getResponse(message);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    player.sendMessage(ChatColor.RED + "Error while contacting AI.");
-                    return;
-                }
-
-                if (response == null || response.isEmpty()) {
-                    response = "No response from AI.";
-                }
-
-                String finalResponse = response;
-                // Send the response back to the player on the main thread
+        // Submit AI task to thread pool (non-blocking)
+        threadPoolManager.submit(() -> {
+            String response;
+            try {
+                response = aiApi.getResponse(message);
+            } catch (Exception e) {
+                e.printStackTrace();
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        player.sendMessage(ChatColor.GREEN + "[AI]: " + ChatColor.WHITE + finalResponse);
+                        player.sendMessage(ChatColor.RED + "Error while contacting AI.");
                     }
                 }.runTask(plugin);
+                return;
             }
-        }.runTaskAsynchronously(plugin);
+
+            if (response == null || response.isEmpty()) {
+                response = "No response from AI.";
+            }
+
+            final String finalResponse = response;
+
+            // Send the response on the main thread
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    player.sendMessage(ChatColor.GREEN + "[AI]: " + ChatColor.WHITE + finalResponse);
+                }
+            }.runTask(plugin);
+        });
 
         return true;
     }

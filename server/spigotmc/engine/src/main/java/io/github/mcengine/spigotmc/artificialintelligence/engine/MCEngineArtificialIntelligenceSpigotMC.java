@@ -1,6 +1,7 @@
 package io.github.mcengine.spigotmc.artificialintelligence.engine;
 
 import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
+import io.github.mcengine.api.artificialintelligence.ThreadPoolManager;
 import io.github.mcengine.common.artificialintelligence.command.MCEngineArtificialIntelligenceCommonCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,10 +30,11 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
 
         try {
             artificialintelligenceApi = new MCEngineArtificialIntelligenceApi(this);
+            ThreadPoolManager threadPoolManager = new ThreadPoolManager(this);
             getLogger().info("AI Engine initialized successfully.");
 
             getCommand("ai").setExecutor(
-                new MCEngineArtificialIntelligenceCommonCommand(this, artificialintelligenceApi)
+                new MCEngineArtificialIntelligenceCommonCommand(this, artificialintelligenceApi, threadPoolManager)
             );
         } catch (Exception e) {
             getLogger().severe("Failed to initialize AI Engine: " + e.getMessage());
