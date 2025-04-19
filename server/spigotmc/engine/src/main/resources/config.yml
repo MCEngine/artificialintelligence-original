@@ -3,3 +3,9 @@ ai: deepseek
 deepseek:
   token:
   model: deepseek-chat
+
+threadpool:
+  core: 16
+  max: 64
+  queue: 128
+  keepalive: 60
