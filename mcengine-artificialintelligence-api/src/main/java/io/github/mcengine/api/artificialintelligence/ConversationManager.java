@@ -14,15 +14,15 @@ public class ConversationManager {
         playerConversations.put(player.getUniqueId(), new StringBuilder());
     }
 
-    public static void appendToConversation(Player player, String message) {
+    public static void append(Player player, String message) {
         playerConversations.computeIfAbsent(player.getUniqueId(), k -> new StringBuilder()).append(message).append("\n");
     }
 
-    public static String getConversation(Player player) {
+    public static String get(Player player) {
         return playerConversations.getOrDefault(player.getUniqueId(), new StringBuilder()).toString();
     }
 
-    public static void endConversation(Player player) {
+    public static void end(Player player) {
         playerConversations.remove(player.getUniqueId());
     }
 }

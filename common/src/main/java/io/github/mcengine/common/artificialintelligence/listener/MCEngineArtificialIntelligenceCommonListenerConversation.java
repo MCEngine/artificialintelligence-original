@@ -35,6 +35,6 @@ public class MCEngineArtificialIntelligenceCommonListenerConversation implements
      */
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        ConversationManager.endConversation(event.getPlayer());
+        ConversationManager.end(event.getPlayer());
     }
 }

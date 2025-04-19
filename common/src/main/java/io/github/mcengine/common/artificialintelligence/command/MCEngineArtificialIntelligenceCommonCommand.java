@@ -1,5 +1,6 @@
 package io.github.mcengine.common.artificialintelligence.command;
 
+import io.github.mcengine.api.artificialintelligence.ConversationManager;
 import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
 import io.github.mcengine.api.artificialintelligence.ThreadPoolManager;
 import org.bukkit.ChatColor;
@@ -54,26 +55,26 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
             sender.sendMessage(ChatColor.RED + "Only players can use this command.");
             return true;
         }
-
+    
         Player player = (Player) sender;
-
+    
         if (!player.hasPermission("mcengine.artificialintelligence.deepseek")) {
             player.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
             return true;
         }
-
+    
         if (args.length == 0) {
             player.sendMessage(ChatColor.YELLOW + "Usage: /ai <message>");
             return true;
         }
-
+    
         String message = String.join(" ", args);
-
-        // Submit AI task to thread pool (non-blocking)
+        ConversationManager.append(player, "You: " + message); // <-- Append user input
+    
         threadPoolManager.submit(() -> {
             String response;
             try {
-                response = aiApi.getResponse(message);
+                response = aiApi.getResponse(ConversationManager.get(player)); // <-- Use conversation
             } catch (Exception e) {
                 e.printStackTrace();
                 new BukkitRunnable() {
@@ -84,14 +85,14 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
                 }.runTask(plugin);
                 return;
             }
-
+    
             if (response == null || response.isEmpty()) {
                 response = "No response from AI.";
             }
-
+    
             final String finalResponse = response;
-
-            // Send the response on the main thread
+            ConversationManager.append(player, "AI: " + finalResponse); // <-- Append AI response
+    
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -99,7 +100,7 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
                 }
             }.runTask(plugin);
         });
-
+    
         return true;
     }
 }
