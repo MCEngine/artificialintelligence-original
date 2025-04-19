@@ -11,3 +11,6 @@ threadpool:
   max: 64
   queue: 128
   keepalive: 60
+
+conversation:
+  keep: false
