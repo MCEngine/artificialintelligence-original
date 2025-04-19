@@ -27,6 +27,9 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
     /** Thread pool manager for offloading heavy/long tasks. */
     private final ThreadPoolManager threadPoolManager;
 
+    /** Whether conversation should be kept. */
+    private final boolean keepConversation;
+
     /**
      * Constructs the AI command executor.
      *
@@ -38,6 +41,7 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
         this.plugin = plugin;
         this.aiApi = aiApi;
         this.threadPoolManager = threadPoolManager;
+        this.keepConversation = plugin.getConfig().getBoolean("conversation.keep", false);
     }
 
     /**
@@ -69,12 +73,16 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
         }
     
         String message = String.join(" ", args);
-        ConversationManager.append(player, "You: " + message); // <-- Append user input
+        
+        if (keepConversation) {
+            ConversationManager.append(player, "You: " + message);
+        }
     
         threadPoolManager.submit(() -> {
+            String inputToAI = keepConversation ? ConversationManager.get(player) : "You: " + message;
             String response;
             try {
-                response = aiApi.getResponse(ConversationManager.get(player)); // <-- Use conversation
+                response = aiApi.getResponse(inputToAI);
             } catch (Exception e) {
                 e.printStackTrace();
                 new BukkitRunnable() {
@@ -85,14 +93,17 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
                 }.runTask(plugin);
                 return;
             }
-    
+
             if (response == null || response.isEmpty()) {
                 response = "No response from AI.";
             }
-    
+
             final String finalResponse = response;
-            ConversationManager.append(player, "AI: " + finalResponse); // <-- Append AI response
-    
+
+            if (keepConversation) {
+                ConversationManager.append(player, "AI: " + finalResponse);
+            }
+
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -100,7 +111,7 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
                 }
             }.runTask(plugin);
         });
-    
+
         return true;
     }
 }
