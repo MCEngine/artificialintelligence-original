@@ -65,73 +65,21 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
             sender.sendMessage(ChatColor.RED + "Only players can use this command.");
             return true;
         }
-    
+
         Player player = (Player) sender;
-    
+
         if (!player.hasPermission("mcengine.artificialintelligence.deepseek")) {
             player.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
             return true;
         }
-    
-        if (args.length == 0) {
-            player.sendMessage(ChatColor.YELLOW + "Usage: /ai <message>");
-            return true;
+
+        if (!ConversationManager.isActive(player)) {
+            ConversationManager.startConversation(player);
+            ConversationManager.activate(player);
+            player.sendMessage(ChatColor.GREEN + "AI conversation started. Type messages in chat. Type 'quit' to end.");
+        } else {
+            player.sendMessage(ChatColor.YELLOW + "You are already in a conversation. Type 'quit' to end.");
         }
-    
-        String message = String.join(" ", args);
-        StringBuilder contextInfo = new StringBuilder();
-
-        List<String> matchedResponses = functionLoader.match(player, message);
-        for (String res : matchedResponses) {
-            contextInfo.append(res).append(" ");
-        }
-
-        String finalMessage = "You: " + message;
-        if (contextInfo.length() > 0) {
-            finalMessage += " (" + contextInfo.toString().trim() + ")";
-        }
-        final String safeFinalMessage = finalMessage;
-
-        if (keepConversation) {
-            ConversationManager.append(player, safeFinalMessage);
-        }
-
-        final String inputToAI = keepConversation
-                ? ConversationManager.get(player) + "\n" + safeFinalMessage
-                : safeFinalMessage;
-    
-        threadPoolManager.submit(() -> {
-            String response;
-            try {
-                response = aiApi.getResponse(inputToAI);
-            } catch (Exception e) {
-                e.printStackTrace();
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        player.sendMessage(ChatColor.RED + "Error while contacting AI.");
-                    }
-                }.runTask(plugin);
-                return;
-            }
-
-            if (response == null || response.isEmpty()) {
-                response = "No response from AI.";
-            }
-
-            final String finalResponse = response;
-
-            if (keepConversation) {
-                ConversationManager.append(player, "AI: " + finalResponse);
-            }
-
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    player.sendMessage(ChatColor.GREEN + "[AI]: " + ChatColor.WHITE + finalResponse);
-                }
-            }.runTask(plugin);
-        });
 
         return true;
     }

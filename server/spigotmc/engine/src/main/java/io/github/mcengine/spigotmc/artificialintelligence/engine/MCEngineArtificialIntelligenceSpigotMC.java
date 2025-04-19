@@ -43,7 +43,8 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
             getLogger().info("AI Engine initialized successfully.");
             if (getConfig().getBoolean("conversation.keep", false)) {
                 getServer().getPluginManager().registerEvents(
-                new MCEngineArtificialIntelligenceCommonListenerConversation(), this
+                    new MCEngineArtificialIntelligenceCommonListenerConversation(this, artificialintelligenceApi, threadPoolManager, functionCallingLoader),
+                    this
                 );
             }
             getCommand("ai").setExecutor(
