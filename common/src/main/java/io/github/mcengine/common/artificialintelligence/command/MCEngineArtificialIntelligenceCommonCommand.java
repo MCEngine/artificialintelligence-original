@@ -1,6 +1,8 @@
 package io.github.mcengine.common.artificialintelligence.command;
 
+import java.util.List;
 import io.github.mcengine.api.artificialintelligence.ConversationManager;
+import io.github.mcengine.api.artificialintelligence.FunctionCallingLoader;
 import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
 import io.github.mcengine.api.artificialintelligence.ThreadPoolManager;
 import org.bukkit.ChatColor;
@@ -27,6 +29,9 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
     /** Thread pool manager for offloading heavy/long tasks. */
     private final ThreadPoolManager threadPoolManager;
 
+    /** Loader for dynamic function-calling rules. */
+    private final FunctionCallingLoader functionLoader;
+
     /** Whether conversation should be kept. */
     private final boolean keepConversation;
 
@@ -37,10 +42,11 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
      * @param aiApi             The AI API to communicate with.
      * @param threadPoolManager The shared thread pool for executing async tasks.
      */
-    public MCEngineArtificialIntelligenceCommonCommand(Plugin plugin, MCEngineArtificialIntelligenceApi aiApi, ThreadPoolManager threadPoolManager) {
+    public MCEngineArtificialIntelligenceCommonCommand(Plugin plugin, MCEngineArtificialIntelligenceApi aiApi, ThreadPoolManager threadPoolManager, FunctionCallingLoader functionLoader) {
         this.plugin = plugin;
         this.aiApi = aiApi;
         this.threadPoolManager = threadPoolManager;
+        this.functionLoader = functionLoader;
         this.keepConversation = plugin.getConfig().getBoolean("conversation.keep", false);
     }
 
@@ -73,13 +79,28 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
         }
     
         String message = String.join(" ", args);
-        
-        if (keepConversation) {
-            ConversationManager.append(player, "You: " + message);
+        StringBuilder contextInfo = new StringBuilder();
+
+        List<String> matchedResponses = functionLoader.match(player, message);
+        for (String res : matchedResponses) {
+            contextInfo.append(res).append(" ");
         }
+
+        String finalMessage = "You: " + message;
+        if (contextInfo.length() > 0) {
+            finalMessage += " (" + contextInfo.toString().trim() + ")";
+        }
+        final String safeFinalMessage = finalMessage;
+
+        if (keepConversation) {
+            ConversationManager.append(player, safeFinalMessage);
+        }
+
+        final String inputToAI = keepConversation
+                ? ConversationManager.get(player) + "\n" + safeFinalMessage
+                : safeFinalMessage;
     
         threadPoolManager.submit(() -> {
-            String inputToAI = keepConversation ? ConversationManager.get(player) : "You: " + message;
             String response;
             try {
                 response = aiApi.getResponse(inputToAI);
