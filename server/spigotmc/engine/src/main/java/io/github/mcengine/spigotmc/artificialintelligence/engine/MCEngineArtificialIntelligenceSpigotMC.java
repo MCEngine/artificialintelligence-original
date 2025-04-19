@@ -39,10 +39,11 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
             artificialintelligenceApi = new MCEngineArtificialIntelligenceApi(this);
             ThreadPoolManager threadPoolManager = new ThreadPoolManager(this);
             getLogger().info("AI Engine initialized successfully.");
-
-            getServer().getPluginManager().registerEvents(
+            if (getConfig().getBoolean("conversation.keep", false)) {
+                getServer().getPluginManager().registerEvents(
                 new MCEngineArtificialIntelligenceCommonListenerConversation(), this
                 );
+            }
             getCommand("ai").setExecutor(
                 new MCEngineArtificialIntelligenceCommonCommand(this, artificialintelligenceApi, threadPoolManager)
             );
