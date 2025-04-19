@@ -40,7 +40,7 @@ public class MCEngineArtificialIntelligenceCommonListenerConversation implements
         event.getRecipients().clear();
         String message = event.getMessage().trim();
 
-        player.sendMessage(ChatColor.GRAY + "[You → AI]: " + ChatColor.WHITE + message); // Optional: Feedback
+        player.sendMessage(ChatColor.GRAY + "[You → AI]: " + ChatColor.WHITE + message);
 
         if (message.equalsIgnoreCase("quit")) {
             ConversationManager.terminate(player);
@@ -64,13 +64,16 @@ public class MCEngineArtificialIntelligenceCommonListenerConversation implements
             userInput += " (" + contextInfo.toString().trim() + ")";
         }
 
+        String inputToAI;
+
         if (keepConversation) {
             ConversationManager.append(player, userInput);
+            inputToAI = ConversationManager.get(player);
+        } else {
+            inputToAI = userInput;
         }
 
-        String inputToAI = keepConversation
-                ? ConversationManager.get(player) + "\n" + userInput
-                : userInput;
+        // plugin.getLogger().info(inputToAI);
 
         threadPoolManager.submit(() -> {
             String response = aiApi.getResponse(inputToAI);
