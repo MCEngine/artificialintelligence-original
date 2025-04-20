@@ -5,6 +5,8 @@ import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntellige
 import io.github.mcengine.api.artificialintelligence.ThreadPoolManager;
 import io.github.mcengine.common.artificialintelligence.command.MCEngineArtificialIntelligenceCommonCommand;
 import io.github.mcengine.common.artificialintelligence.listener.MCEngineArtificialIntelligenceCommonListenerConversation;
+import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -18,18 +20,14 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
 
     /** API for accessing and managing AI functionality. */
     private MCEngineArtificialIntelligenceApi artificialintelligenceApi;
+    private ThreadPoolManager threadPoolManager;
+    private FunctionCallingLoader functionCallingLoader;
 
-    /**
-     * Called when the plugin is enabled. Initializes configuration,
-     * sets up the AI engine, and registers the /ai command.
-     */
     @Override
     public void onEnable() {
         getLogger().info("MCEngine Artificial Intelligence Enabled.");
-
         instance = this;
 
-        // Save default config if not already present
         saveDefaultConfig();
 
         if (!getConfig().getBoolean("enable", true)) {
@@ -38,24 +36,7 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
             return;
         }
 
-        try {
-            artificialintelligenceApi = new MCEngineArtificialIntelligenceApi(this);
-            ThreadPoolManager threadPoolManager = new ThreadPoolManager(this);
-            FunctionCallingLoader functionCallingLoader = new FunctionCallingLoader(this);
-            getLogger().info("AI Engine initialized successfully.");
-            if (getConfig().getBoolean("conversation.keep", false)) {
-                getServer().getPluginManager().registerEvents(
-                    new MCEngineArtificialIntelligenceCommonListenerConversation(this, artificialintelligenceApi, threadPoolManager, functionCallingLoader),
-                    this
-                );
-            }
-            getCommand("ai").setExecutor(
-                new MCEngineArtificialIntelligenceCommonCommand(this)
-            );
-        } catch (Exception e) {
-            getLogger().severe("Failed to initialize AI Engine: " + e.getMessage());
-            e.printStackTrace();
-        }
+        reloadAiComponents();
     }
 
     /**
@@ -64,6 +45,38 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
     @Override
     public void onDisable() {
         getLogger().info("MCEngine Artificial Intelligence Disabled.");
+        HandlerList.unregisterAll(this);
+    }
+
+    public void reloadAiComponents() {
+        try {
+            HandlerList.unregisterAll(this);
+            reloadConfig();
+
+            artificialintelligenceApi = new MCEngineArtificialIntelligenceApi(this);
+            threadPoolManager = new ThreadPoolManager(this);
+            functionCallingLoader = new FunctionCallingLoader(this);
+
+            PluginManager pluginManager = getServer().getPluginManager();
+
+            if (getConfig().getBoolean("conversation.keep", false)) {
+                pluginManager.registerEvents(
+                    new MCEngineArtificialIntelligenceCommonListenerConversation(
+                        this, artificialintelligenceApi, threadPoolManager, functionCallingLoader
+                    ),
+                    this
+                );
+            }
+
+            getCommand("ai").setExecutor(
+                new MCEngineArtificialIntelligenceCommonCommand(this, this::reloadAiComponents)
+            );
+
+            getLogger().info("AI components reloaded successfully.");
+        } catch (Exception e) {
+            getLogger().severe("Failed to reload AI components: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
