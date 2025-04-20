@@ -4,7 +4,6 @@ import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialInt
 import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiDeepSeek;
 import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiOpenAi;
 import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiOpenRouter;
-import io.github.mcengine.api.artificialintelligence.util.MCEngineArtificialIntelligenceApiUtil;
 
 import org.bukkit.plugin.Plugin;
 
@@ -13,9 +12,6 @@ import org.bukkit.plugin.Plugin;
  * It initializes and interacts with the AI model based on the plugin configuration.
  */
 public class MCEngineArtificialIntelligenceApi {
-
-    /** Utility logger for logging information, warnings, and errors. */
-    private final MCEngineArtificialIntelligenceApiUtil logger;
 
     /** Interface for AI model interaction. */
     private final IMCEngineArtificialIntelligenceApi ai;
@@ -28,7 +24,6 @@ public class MCEngineArtificialIntelligenceApi {
      * @throws IllegalArgumentException If the configured AI type is not supported.
      */
     public MCEngineArtificialIntelligenceApi(Plugin plugin) {
-        this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
         String aiType = plugin.getConfig().getString("aiType", "deepseek");
 
         switch (aiType.toLowerCase()) {
@@ -57,32 +52,5 @@ public class MCEngineArtificialIntelligenceApi {
      */
     public String getResponse(String message) {
         return ai.getResponse(message);
-    }
-
-    /**
-     * Logs an informational message through the internal logger.
-     *
-     * @param message The message to log.
-     */
-    public void info(String message) {
-        logger.info(message);
-    }
-
-    /**
-     * Logs a warning message through the internal logger.
-     *
-     * @param message The message to log.
-     */
-    public void warn(String message) {
-        logger.warn(message);
-    }
-
-    /**
-     * Logs an error message through the internal logger.
-     *
-     * @param message The message to log.
-     */
-    public void error(String message) {
-        logger.error(message);
     }
 }
