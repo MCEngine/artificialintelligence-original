@@ -1,5 +1,6 @@
 package io.github.mcengine.api.artificialintelligence;
 
+import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiCustomUrl;
 import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiDeepSeek;
 import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiOpenRouter;
 import io.github.mcengine.api.artificialintelligence.util.MCEngineArtificialIntelligenceApiUtil;
@@ -30,6 +31,9 @@ public class MCEngineArtificialIntelligenceApi {
         String aiType = plugin.getConfig().getString("aiType", "deepseek");
 
         switch (aiType.toLowerCase()) {
+            case "custom":
+                this.ai = new MCEngineArtificialIntelligenceApiCustomUrl(plugin);
+                break;
             case "deepseek":
                 this.ai = new MCEngineArtificialIntelligenceApiDeepSeek(plugin);
                 break;

@@ -3,6 +3,11 @@ enable: false
 aiType: deepseek
 
 ai:
+  custom:
+    url: http://localhost:11434/v1/chat/completions
+    token:
+    model: gpt-3.5-turbo
+
   deepseek:
     token:
     model: deepseek-chat
