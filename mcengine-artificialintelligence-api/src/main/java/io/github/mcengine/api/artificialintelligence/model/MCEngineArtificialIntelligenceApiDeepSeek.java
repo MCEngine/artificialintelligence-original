@@ -19,9 +19,6 @@ import java.net.URL;
  */
 public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtificialIntelligenceApi {
 
-    /** The Bukkit plugin instance using this AI model. */
-    private final Plugin plugin;
-
     /** The API token used for authentication with DeepSeek. */
     private final String token;
 
@@ -37,7 +34,6 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
      * @param plugin The plugin that provides configuration and context.
      */
     public MCEngineArtificialIntelligenceApiDeepSeek(Plugin plugin) {
-        this.plugin = plugin;
         this.token = plugin.getConfig().getString("deepseek.token", null);
         this.aiModel = plugin.getConfig().getString("deepseek.model", "deepseek-chat");
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
