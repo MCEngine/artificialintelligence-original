@@ -1,17 +1,11 @@
 package io.github.mcengine.common.artificialintelligence.command;
 
-import java.util.List;
 import io.github.mcengine.api.artificialintelligence.ConversationManager;
-import io.github.mcengine.api.artificialintelligence.FunctionCallingLoader;
-import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
-import io.github.mcengine.api.artificialintelligence.ThreadPoolManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Command executor for the /ai command.
@@ -19,36 +13,6 @@ import org.bukkit.scheduler.BukkitRunnable;
  * All AI communication is performed asynchronously to avoid blocking the main thread.
  */
 public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecutor {
-
-    /** The Bukkit plugin instance used for context and scheduling. */
-    private final Plugin plugin;
-
-    /** The AI API used to handle chat requests. */
-    private final MCEngineArtificialIntelligenceApi aiApi;
-
-    /** Thread pool manager for offloading heavy/long tasks. */
-    private final ThreadPoolManager threadPoolManager;
-
-    /** Loader for dynamic function-calling rules. */
-    private final FunctionCallingLoader functionLoader;
-
-    /** Whether conversation should be kept. */
-    private final boolean keepConversation;
-
-    /**
-     * Constructs the AI command executor.
-     *
-     * @param plugin            The plugin instance.
-     * @param aiApi             The AI API to communicate with.
-     * @param threadPoolManager The shared thread pool for executing async tasks.
-     */
-    public MCEngineArtificialIntelligenceCommonCommand(Plugin plugin, MCEngineArtificialIntelligenceApi aiApi, ThreadPoolManager threadPoolManager, FunctionCallingLoader functionLoader) {
-        this.plugin = plugin;
-        this.aiApi = aiApi;
-        this.threadPoolManager = threadPoolManager;
-        this.functionLoader = functionLoader;
-        this.keepConversation = plugin.getConfig().getBoolean("conversation.keep", false);
-    }
 
     /**
      * Handles the /ai command.

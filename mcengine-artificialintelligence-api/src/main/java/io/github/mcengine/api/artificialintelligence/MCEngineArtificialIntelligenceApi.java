@@ -11,9 +11,6 @@ import org.bukkit.plugin.Plugin;
  */
 public class MCEngineArtificialIntelligenceApi {
 
-    /** Reference to the plugin instance using this API. */
-    private final Plugin plugin;
-
     /** Utility logger for logging information, warnings, and errors. */
     private final MCEngineArtificialIntelligenceApiUtil logger;
 
@@ -28,7 +25,6 @@ public class MCEngineArtificialIntelligenceApi {
      * @throws IllegalArgumentException If the configured AI type is not supported.
      */
     public MCEngineArtificialIntelligenceApi(Plugin plugin) {
-        this.plugin = plugin;
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
         String aiType = plugin.getConfig().getString("ai", "deepseek");
 

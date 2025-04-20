@@ -48,7 +48,7 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
                 );
             }
             getCommand("ai").setExecutor(
-                new MCEngineArtificialIntelligenceCommonCommand(this, artificialintelligenceApi, threadPoolManager, functionCallingLoader)
+                new MCEngineArtificialIntelligenceCommonCommand()
             );
         } catch (Exception e) {
             getLogger().severe("Failed to initialize AI Engine: " + e.getMessage());
