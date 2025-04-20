@@ -6,11 +6,15 @@ ai:
   custom:
     url: http://localhost:11434/v1/chat/completions
     token:
-    model: gpt-3.5-turbo
+    model:
 
   deepseek:
     token:
     model: deepseek-chat
+
+  openai:
+    token:
+    model: gpt-3.5-turbo
 
   openrouter:
     token:

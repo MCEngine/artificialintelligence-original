@@ -2,6 +2,7 @@ package io.github.mcengine.api.artificialintelligence;
 
 import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiCustomUrl;
 import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiDeepSeek;
+import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiOpenAi;
 import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiOpenRouter;
 import io.github.mcengine.api.artificialintelligence.util.MCEngineArtificialIntelligenceApiUtil;
 
@@ -36,6 +37,9 @@ public class MCEngineArtificialIntelligenceApi {
                 break;
             case "deepseek":
                 this.ai = new MCEngineArtificialIntelligenceApiDeepSeek(plugin);
+                break;
+            case "openai":
+                this.ai = new MCEngineArtificialIntelligenceApiOpenAi(plugin);
                 break;
             case "openrouter":
                 this.ai = new MCEngineArtificialIntelligenceApiOpenRouter(plugin);
