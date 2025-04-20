@@ -20,7 +20,7 @@ permissions:
 
   mcengine.artificialintelligence.use:
     description: Allows the player to start an AI conversation
-    default: true
+    default: op
 
   mcengine.artificialintelligence.reload:
     description: Allows the player to reload the AI plugin
