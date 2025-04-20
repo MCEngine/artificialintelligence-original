@@ -15,7 +15,7 @@ permissions:
   mcengine.artificialintelligence.*:
     description: Gives access to all AI commands
     children:
-      mcengine.artificialintelligence.deepseek: true
+      mcengine.artificialintelligence.use: true
       mcengine.artificialintelligence.reload: true
 
   mcengine.artificialintelligence.use:
