@@ -24,4 +24,4 @@ threadpool:
   keepalive: 60
 
 conversation:
-  keep: false
+  keep: true
