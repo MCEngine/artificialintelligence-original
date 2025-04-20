@@ -16,9 +16,11 @@ import org.bukkit.plugin.Plugin;
 public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecutor {
 
     private final Plugin plugin;
+    private final Runnable reloadTask;
 
-    public MCEngineArtificialIntelligenceCommonCommand(Plugin plugin) {
+    public MCEngineArtificialIntelligenceCommonCommand(Plugin plugin, Runnable reloadTask) {
         this.plugin = plugin;
+        this.reloadTask = reloadTask;
     }
 
     /**
@@ -37,21 +39,21 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
             return true;
         }
 
+        Player player = (Player) sender;
+
+        // Handle /ai reload
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             if (!sender.hasPermission("mcengine.artificialintelligence.reload")) {
                 sender.sendMessage(ChatColor.RED + "You do not have permission to reload the plugin.");
                 return true;
             }
 
-            plugin.reloadConfig();
-            plugin.onDisable();
-            plugin.onEnable();
+            reloadTask.run();
             sender.sendMessage(ChatColor.GREEN + "AI configuration reloaded.");
             return true;
         }
 
-        Player player = (Player) sender;
-
+        // Handle /ai to start conversation
         if (!player.hasPermission("mcengine.artificialintelligence.use")) {
             player.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
             return true;
