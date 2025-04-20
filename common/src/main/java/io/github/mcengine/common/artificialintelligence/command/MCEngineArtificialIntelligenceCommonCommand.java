@@ -49,6 +49,7 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
             }
 
             reloadTask.run();
+            ConversationManager.terminateAll();
             sender.sendMessage(ChatColor.GREEN + "AI configuration reloaded.");
             return true;
         }
