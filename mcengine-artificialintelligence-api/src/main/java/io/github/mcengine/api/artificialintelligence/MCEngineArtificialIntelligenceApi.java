@@ -27,7 +27,7 @@ public class MCEngineArtificialIntelligenceApi {
      */
     public MCEngineArtificialIntelligenceApi(Plugin plugin) {
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
-        String aiType = plugin.getConfig().getString("ai", "deepseek");
+        String aiType = plugin.getConfig().getString("aiType", "deepseek");
 
         switch (aiType.toLowerCase()) {
             case "deepseek":

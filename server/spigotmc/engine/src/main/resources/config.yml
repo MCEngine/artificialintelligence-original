@@ -1,14 +1,15 @@
 enable: false
 
-ai: deepseek
+aiType: deepseek
 
-deepseek:
-  token:
-  model: deepseek-chat
+ai:
+  deepseek:
+    token:
+    model: deepseek-chat
 
-openrouter:
-  token:
-  model:
+  openrouter:
+    token:
+    model:
 
 
 threadpool:
