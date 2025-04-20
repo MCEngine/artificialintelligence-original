@@ -1,6 +1,7 @@
 package io.github.mcengine.api.artificialintelligence;
 
 import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiDeepSeek;
+import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiOpenRouter;
 import io.github.mcengine.api.artificialintelligence.util.MCEngineArtificialIntelligenceApiUtil;
 
 import org.bukkit.plugin.Plugin;
@@ -28,10 +29,15 @@ public class MCEngineArtificialIntelligenceApi {
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
         String aiType = plugin.getConfig().getString("ai", "deepseek");
 
-        if (aiType.equalsIgnoreCase("deepseek")) {
-            this.ai = new MCEngineArtificialIntelligenceApiDeepSeek(plugin);
-        } else {
-            throw new IllegalArgumentException("Unsupported AI type: " + aiType);
+        switch (aiType.toLowerCase()) {
+            case "deepseek":
+                this.ai = new MCEngineArtificialIntelligenceApiDeepSeek(plugin);
+                break;
+            case "openrouter":
+                this.ai = new MCEngineArtificialIntelligenceApiOpenRouter(plugin);
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported AI type: " + aiType);
         }
     }
 

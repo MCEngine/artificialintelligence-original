@@ -6,6 +6,11 @@ deepseek:
   token:
   model: deepseek-chat
 
+openrouter:
+  token:
+  model:
+
+
 threadpool:
   core: 16
   max: 64
