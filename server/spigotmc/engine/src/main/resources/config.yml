@@ -20,7 +20,6 @@ ai:
     token:
     model:
 
-
 threadpool:
   core: 16
   max: 64
