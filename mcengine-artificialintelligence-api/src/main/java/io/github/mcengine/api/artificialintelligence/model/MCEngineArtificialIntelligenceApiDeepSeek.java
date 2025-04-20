@@ -107,31 +107,4 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
             return "Exception: " + e.getMessage();
         }
     }
-
-    /**
-     * Logs an informational message using the internal logger.
-     *
-     * @param message The message to log.
-     */
-    public void info(String message) {
-        logger.info(message);
-    }
-
-    /**
-     * Logs a warning message using the internal logger.
-     *
-     * @param message The message to log.
-     */
-    public void warn(String message) {
-        logger.warn(message);
-    }
-
-    /**
-     * Logs an error message using the internal logger.
-     *
-     * @param message The message to log.
-     */
-    public void error(String message) {
-        logger.error(message);
-    }
 }
