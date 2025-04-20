@@ -5,6 +5,7 @@ import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntellige
 import io.github.mcengine.api.artificialintelligence.ThreadPoolManager;
 import io.github.mcengine.common.artificialintelligence.command.MCEngineArtificialIntelligenceCommonCommand;
 import io.github.mcengine.common.artificialintelligence.listener.MCEngineArtificialIntelligenceCommonListenerConversation;
+import io.github.mcengine.spigotmc.artificialintelligence.engine.Metrics;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,6 +28,9 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
     public void onEnable() {
         getLogger().info("MCEngine Artificial Intelligence Enabled.");
         instance = this;
+
+        // Initialize bStats metrics
+        new Metrics(this, 25556);
 
         saveDefaultConfig();
 

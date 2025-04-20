@@ -68,7 +68,6 @@ subprojects {
                 dependencies {
                     implementation project(path: ':mcengine-artificialintelligence-api', configuration: 'shadow')
                     implementation project(path: ':common', configuration: 'shadow')
-                    compileOnly 'org.bstats:bstats-bukkit:3.1.0'
 
                     def platformDir = rootProject.file("server/${platform}")
                     if (platformDir.exists()) {
