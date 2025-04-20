@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-version = '1.2.0-RELEASE'
+version = '1.2.1-SNAPSHOT'
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT'
