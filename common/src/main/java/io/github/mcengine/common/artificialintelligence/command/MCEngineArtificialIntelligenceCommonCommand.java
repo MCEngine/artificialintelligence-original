@@ -52,7 +52,7 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
 
         Player player = (Player) sender;
 
-        if (!player.hasPermission("mcengine.artificialintelligence.deepseek")) {
+        if (!player.hasPermission("mcengine.artificialintelligence.use")) {
             player.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
             return true;
         }

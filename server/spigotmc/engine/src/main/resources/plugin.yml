@@ -8,7 +8,7 @@ commands:
   ai:
     description: Get AI response
     usage: /<command>
-    permission: mcengine.artificialintelligence.deepseek
+    permission: mcengine.artificialintelligence.use
     permission-message: You do not have permission to use this command.
 
 permissions:
@@ -18,7 +18,7 @@ permissions:
       mcengine.artificialintelligence.deepseek: true
       mcengine.artificialintelligence.reload: true
 
-  mcengine.artificialintelligence.deepseek:
+  mcengine.artificialintelligence.use:
     description: Allows the player to start an AI conversation
     default: true
 
