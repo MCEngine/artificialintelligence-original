@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 /**
  * Command executor for the /ai command.
@@ -13,6 +14,12 @@ import org.bukkit.entity.Player;
  * All AI communication is performed asynchronously to avoid blocking the main thread.
  */
 public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecutor {
+
+    private final Plugin plugin;
+
+    public MCEngineArtificialIntelligenceCommonCommand(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     /**
      * Handles the /ai command.
@@ -27,6 +34,19 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "Only players can use this command.");
+            return true;
+        }
+
+        if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
+            if (!sender.hasPermission("mcengine.artificialintelligence.reload")) {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to reload the plugin.");
+                return true;
+            }
+
+            plugin.reloadConfig();
+            plugin.onDisable();
+            plugin.onEnable();
+            sender.sendMessage(ChatColor.GREEN + "AI configuration reloaded.");
             return true;
         }
 

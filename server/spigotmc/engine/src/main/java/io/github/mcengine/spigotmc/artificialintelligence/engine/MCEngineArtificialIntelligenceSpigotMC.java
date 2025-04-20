@@ -25,6 +25,8 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
      */
     @Override
     public void onEnable() {
+        getLogger().info("MCEngine Artificial Intelligence Enabled.");
+
         instance = this;
 
         // Save default config if not already present
@@ -48,7 +50,7 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
                 );
             }
             getCommand("ai").setExecutor(
-                new MCEngineArtificialIntelligenceCommonCommand()
+                new MCEngineArtificialIntelligenceCommonCommand(this)
             );
         } catch (Exception e) {
             getLogger().severe("Failed to initialize AI Engine: " + e.getMessage());
@@ -61,7 +63,7 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        getLogger().info("AI Engine disabled.");
+        getLogger().info("MCEngine Artificial Intelligence Disabled.");
     }
 
     /**
