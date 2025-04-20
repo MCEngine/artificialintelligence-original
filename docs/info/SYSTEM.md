@@ -9,3 +9,5 @@ player: /ai
 
 [AI]: Hi, how are you?
 ```
+
+Type `quit` ❌ to end the conversation.
