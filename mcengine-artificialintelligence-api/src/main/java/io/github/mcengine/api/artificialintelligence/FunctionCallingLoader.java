@@ -30,7 +30,7 @@ public class FunctionCallingLoader {
 
     public FunctionCallingLoader(Plugin plugin) {
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
-        File rootFolder = new File(plugin.getDataFolder(), "functions");
+        File rootFolder = new File(plugin.getDataFolder(), "datas");
         if (!rootFolder.exists()) rootFolder.mkdirs();
 
         loadJsonFilesRecursively(plugin, rootFolder);
