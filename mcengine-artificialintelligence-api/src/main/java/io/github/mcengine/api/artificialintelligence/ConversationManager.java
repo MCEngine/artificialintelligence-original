@@ -44,4 +44,14 @@ public class ConversationManager {
         end(player);
         deactivate(player);
     }
+
+    public static void terminateAll() {
+        for (UUID uuid : Set.copyOf(activePlayers)) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null && player.isOnline()) {
+                terminate(player);
+                player.sendMessage("§cYour AI session has ended due to plugin reload.");
+            }
+        }
+    }
 }
