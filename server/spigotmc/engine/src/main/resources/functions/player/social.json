@@ -1,0 +1,24 @@
+[
+  {
+    "match": [
+      "hello",
+      "hi",
+      "hey",
+      "greetings",
+      "yo",
+      "sup"
+    ],
+    "response": "Hello {player_name}! 👋 How can I help you today?"
+  },
+  {
+    "match": [
+      "bye",
+      "goodbye",
+      "see you",
+      "farewell",
+      "later",
+      "see ya"
+    ],
+    "response": "Goodbye {player_name}, take care! 👋"
+  }
+]

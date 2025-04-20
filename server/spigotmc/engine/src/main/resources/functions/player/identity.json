@@ -1,0 +1,34 @@
+[
+  {
+    "match": [
+      "what is my name",
+      "who am i",
+      "tell me my name",
+      "do you know my name",
+      "can you say my name",
+      "say my name please"
+    ],
+    "response": "The player's name is {player_name}."
+  },
+  {
+    "match": [
+      "what is my uuid",
+      "tell me my uuid",
+      "my uuid",
+      "can you tell me my uuid",
+      "do you know my uuid",
+      "what's my uuid"
+    ],
+    "response": "The player's UUID is {player_uuid}."
+  },
+  {
+    "match": [
+      "who am i",
+      "what do you know about me",
+      "what is my identity",
+      "identify me",
+      "tell me who i am"
+    ],
+    "response": "Player Info → Name: {player_name}, UUID: {player_uuid}."
+  }
+]

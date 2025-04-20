@@ -1,0 +1,16 @@
+[
+  {
+    "match": [
+      "What game am I playing right now?",
+      "Which game am I currently playing?"
+    ],
+    "response": "You are playing Minecraft right now."
+  },
+  {
+    "match": [
+      "What plugin is this?",
+      "Which plugin is running?"
+    ],
+    "response": "This plugin is MCEngine Artificial Intelligence."
+  }
+]

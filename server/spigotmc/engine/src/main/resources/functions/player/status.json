@@ -1,0 +1,21 @@
+[
+  {
+    "match": [
+      "how am i doing",
+      "what's my status",
+      "tell me my status",
+      "am i okay",
+      "check my status"
+    ],
+    "response": "{player_name}, I don’t have access to health data yet, but you’re awesome as always! 😎"
+  },
+  {
+    "match": [
+      "how are you",
+      "are you okay",
+      "what's up ai",
+      "yo ai"
+    ],
+    "response": "I'm doing great, {player_name}! Thanks for asking 🤖"
+  }
+]
