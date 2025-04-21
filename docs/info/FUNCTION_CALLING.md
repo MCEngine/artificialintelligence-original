@@ -29,8 +29,29 @@ sent to AI --> [You → AI]: Hello Hello {player_name}! 👋 How can I help you 
 
 # 🔧 Parameter Support
 
-You can use the following dynamic placeholders in your responses:
+You can use the following dynamic placeholders in your responses.
 
-`{player_name}` → Replaced with the player’s name
+<div align="center">
 
-`{player_uuid}` → Replaced with the player’s UUID
+|Placeholder|Replaced With|
+|-|-|
+|`{player_name}`|Player’s in-game name|
+|`{player_uuid}`|Player’s UUID|
+|`{time_server}`|Current time of server |(local timezone)|
+|`{time_utc}`|UTC time|
+|`{time_utc_plus_00_00}`|UTC+00:00 formatted time|
+|`{time_utc_minus_00_00}`|UTC-00:00 formatted time|
+|`{time_gmt}`|GMT time|
+|`{time_gmt_plus_00_00}`|GMT+00:00 formatted time|
+|`{time_gmt_minus_00_00}`|GMT-00:00 formatted time|
+|`{time_new_york}`|Time in America/New_York|
+|`{time_london}`|Time in Europe/London|
+|`{time_tokyo}`|Time in Asia/Tokyo|
+|`{time_bangkok}`|Time in Asia/Bangkok|
+|`{time_sydney}`|Time in Australia/Sydney|
+|`{time_paris}`|Time in Europe/Paris|
+|`{time_berlin}`|Time in Europe/Berlin|
+|`{time_singapore}`|Time in Asia/Singapore|
+|`{time_los_angeles}`|Time in America/|Los_Angeles|
+|`{time_toronto}`|Time in America/Toronto|
+</div>
