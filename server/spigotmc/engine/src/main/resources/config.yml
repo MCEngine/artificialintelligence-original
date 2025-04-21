@@ -1,5 +1,11 @@
 enable: false
 
+dbType: json
+
+db:
+  json:
+    path: datas
+
 aiType: deepseek
 
 ai:
