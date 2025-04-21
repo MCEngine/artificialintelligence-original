@@ -9,11 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
-
 
 public class MCEngineArtificialIntelligenceCommonListenerConversation implements Listener {
 
@@ -73,8 +73,6 @@ public class MCEngineArtificialIntelligenceCommonListenerConversation implements
             inputToAI = userInput;
         }
 
-        // plugin.getLogger().info(inputToAI);
-
         threadPoolManager.submit(() -> {
             String response = aiApi.getResponse(inputToAI);
             if (keepConversation) {
@@ -88,5 +86,13 @@ public class MCEngineArtificialIntelligenceCommonListenerConversation implements
                 }
             }.runTask(plugin);
         });
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        if (ConversationManager.isActive(player)) {
+            ConversationManager.terminate(player);
+        }
     }
 }
