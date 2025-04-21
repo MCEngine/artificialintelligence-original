@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
  * This class acts as a central access point for the MCEngine Artificial Intelligence API.
  * It initializes and interacts with the AI model based on the plugin configuration.
  */
-public class MCEngineArtificialIntelligenceApi {
+public class MCEngineArtificialIntelligenceApi implements IMCEngineArtificialIntelligenceApi {
 
     /** Interface for AI model interaction. */
     private final IMCEngineArtificialIntelligenceApi ai;
