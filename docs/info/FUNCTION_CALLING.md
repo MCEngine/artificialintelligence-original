@@ -33,17 +33,24 @@ You can use the following dynamic placeholders in your responses.
 
 <div align="center">
 
+# Player
+
 |Placeholder|Replaced With|
 |-|-|
 |`{player_name}`|Player’s in-game name|
 |`{player_uuid}`|Player’s UUID|
+
+# Time
+
+|Placeholder|Replaced With|
+|-|-|
 |`{time_server}`|Current time of server |(local timezone)|
 |`{time_utc}`|UTC time|
-|`{time_utc_plus_00_00}`|UTC+00:00 formatted time|
-|`{time_utc_minus_00_00}`|UTC-00:00 formatted time|
+|`{time_utc_plus_{%s%s}_{%s%s}}`|UTC+TT:TT formatted time|
+|`{time_utc_minus_{%s%s}_{%s%s}}`|UTC-TT:TT formatted time|
 |`{time_gmt}`|GMT time|
-|`{time_gmt_plus_00_00}`|GMT+00:00 formatted time|
-|`{time_gmt_minus_00_00}`|GMT-00:00 formatted time|
+|`{time_gmt_plus_{%s%s}_{%s%s}}`|GMT+TT:TT formatted time|
+|`{time_gmt_minus_{%s%s}_{%s%s}}`|GMT-TT:TT formatted time|
 |`{time_bangkok}`|Time in Asia/Bangkok|
 |`{time_berlin}`|Time in Europe/Berlin|
 |`{time_london}`|Time in Europe/London|
@@ -54,5 +61,14 @@ You can use the following dynamic placeholders in your responses.
 |`{time_sydney}`|Time in Australia/Sydney|
 |`{time_tokyo}`|Time in Asia/Tokyo|
 |`{time_toronto}`|Time in America/Toronto|
+
+Example `UTC` and `GMT`
+
+|Original|Placeholder|Replaced With|
+|-|-|-|
+|`{time_utc_plus_{%s%s}_{%s%s}}`|`{time_utc_plus_00_00}`|UTC+00:00 formatted time|
+|`{time_utc_minus_{%s%s}_{%s%s}}`|`{time_utc_minus_00_00}`|UTC-00:00 formatted time|
+|`{time_gmt_plus_{%s%s}_{%s%s}}`|`{time_gmt_plus_00_00}`|GMT+00:00 formatted time|
+|`{time_gmt_minus_{%s%s}_{%s%s}}`|`{time_gmt_minus_00_00}`|GMT-00:00 formatted time|
 
 </div>
