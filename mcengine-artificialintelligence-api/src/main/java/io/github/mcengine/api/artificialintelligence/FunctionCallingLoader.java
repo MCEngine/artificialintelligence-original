@@ -38,10 +38,11 @@ public class FunctionCallingLoader {
     public List<String> match(Player player, String input) {
         List<String> results = new ArrayList<>();
         String lowerInput = input.toLowerCase().trim();
-
+    
         for (FunctionRule rule : mergedRules) {
             for (String pattern : rule.match) {
-                if (lowerInput.equals(pattern.toLowerCase())) {
+                String lowerPattern = pattern.toLowerCase();
+                if (lowerInput.contains(lowerPattern) || lowerPattern.contains(lowerInput)) {
                     String resolved = rule.response
                             .replace("{player_name}", player.getName())
                             .replace("{player_uuid}", player.getUniqueId().toString());
