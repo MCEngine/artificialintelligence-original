@@ -54,4 +54,5 @@ You can use the following dynamic placeholders in your responses.
 |`{time_singapore}`|Time in Asia/Singapore|
 |`{time_los_angeles}`|Time in America/|Los_Angeles|
 |`{time_toronto}`|Time in America/Toronto|
+
 </div>
