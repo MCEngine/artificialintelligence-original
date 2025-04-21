@@ -44,15 +44,15 @@ You can use the following dynamic placeholders in your responses.
 |`{time_gmt}`|GMT time|
 |`{time_gmt_plus_00_00}`|GMT+00:00 formatted time|
 |`{time_gmt_minus_00_00}`|GMT-00:00 formatted time|
-|`{time_new_york}`|Time in America/New_York|
-|`{time_london}`|Time in Europe/London|
-|`{time_tokyo}`|Time in Asia/Tokyo|
 |`{time_bangkok}`|Time in Asia/Bangkok|
-|`{time_sydney}`|Time in Australia/Sydney|
-|`{time_paris}`|Time in Europe/Paris|
 |`{time_berlin}`|Time in Europe/Berlin|
-|`{time_singapore}`|Time in Asia/Singapore|
+|`{time_london}`|Time in Europe/London|
 |`{time_los_angeles}`|Time in America/|Los_Angeles|
+|`{time_new_york}`|Time in America/New_York|
+|`{time_paris}`|Time in Europe/Paris|
+|`{time_singapore}`|Time in Asia/Singapore|
+|`{time_sydney}`|Time in Australia/Sydney|
+|`{time_tokyo}`|Time in Asia/Tokyo|
 |`{time_toronto}`|Time in America/Toronto|
 
 </div>
