@@ -51,8 +51,12 @@ public class ConversationManager {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null && player.isOnline()) {
                 terminate(player);
-                player.sendMessage("§cYour AI session has ended due to plugin reload.");
+                player.sendMessage("§cYour AI session has ended due to the plugin being reloaded or disabled.");
             }
         }
+    
+        // Fallback in case any UUIDs weren't removed (e.g., offline players)
+        playerConversations.clear();
+        activePlayers.clear();
     }
 }
