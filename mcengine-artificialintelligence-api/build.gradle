@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
 }
 
-version = '1.4.0-RELEASE'
+version = '1.4.1-SNAPSHOT'
 
 dependencies {
     // Database
