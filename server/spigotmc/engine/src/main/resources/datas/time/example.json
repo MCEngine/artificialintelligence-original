@@ -1,0 +1,75 @@
+[
+    {
+      "match": ["what is the time", "current time", "time right now"],
+      "response": "⏰ Server local time is {time_server}"
+    },
+    {
+      "match": ["what is utc time", "time in utc", "universal time"],
+      "response": "🌍 Coordinated Universal Time (UTC) is {time_utc}"
+    },
+    {
+      "match": ["what is gmt time", "time in gmt", "gmt now"],
+      "response": "🕓 GMT standard time is {time_gmt}"
+    },
+    {
+      "match": ["gmt server time", "gmt local time"],
+      "response": "🖥️ Server time in GMT is {time_gmt_server}"
+    },
+    {
+      "match": ["what time in utc+7", "utc plus seven", "bangkok utc time"],
+      "response": "🕖 UTC+07:00 time is {time_utc_plus_07_00}"
+    },
+    {
+      "match": ["what time in gmt+7", "gmt plus seven"],
+      "response": "🕖 GMT+07:00 time is {time_gmt_plus_07_00}"
+    },
+    {
+      "match": ["new york time", "what time in new york", "time in nyc"],
+      "response": "🗽 New York time is {time_new_york} (GMT/UTC-05:00)"
+    },
+    {
+      "match": ["london time", "time in uk", "what time in london"],
+      "response": "🇬🇧 London time is {time_london} (GMT/UTC+00:00)"
+    },
+    {
+      "match": ["tokyo time", "what time in tokyo", "japan time"],
+      "response": "🇯🇵 Tokyo time is {time_tokyo} (GMT/UTC+09:00)"
+    },
+    {
+      "match": ["bangkok time", "thailand time", "what time in bangkok"],
+      "response": "🇹🇭 Bangkok time is {time_bangkok} (GMT/UTC+07:00)"
+    },
+    {
+      "match": ["sydney time", "australia time", "time in sydney"],
+      "response": "🇦🇺 Sydney time is {time_sydney} (GMT/UTC+10:00)"
+    },
+    {
+      "match": ["paris time", "france time", "time in paris"],
+      "response": "🇫🇷 Paris time is {time_paris} (GMT/UTC+01:00)"
+    },
+    {
+      "match": ["berlin time", "germany time", "time in berlin"],
+      "response": "🇩🇪 Berlin time is {time_berlin} (GMT/UTC+01:00)"
+    },
+    {
+      "match": ["singapore time", "time in singapore"],
+      "response": "🇸🇬 Singapore time is {time_singapore} (GMT/UTC+08:00)"
+    },
+    {
+      "match": ["los angeles time", "la time", "time in california"],
+      "response": "🌴 Los Angeles time is {time_los_angeles} (GMT/UTC-08:00)"
+    },
+    {
+      "match": ["toronto time", "canada time", "time in toronto"],
+      "response": "🍁 Toronto time is {time_toronto} (GMT/UTC-05:00)"
+    },
+    {
+      "match": ["time utc+09:30", "what time in utc+9:30", "gmt plus 9 30"],
+      "response": "🕘 UTC+09:30 time is {time_utc_plus_09_30}, GMT equivalent: {time_gmt_plus_09_30}"
+    },
+    {
+      "match": ["time utc-03:30", "what time in utc minus 3 30", "gmt minus 3 30"],
+      "response": "🌎 UTC-03:30 time is {time_utc_minus_03_30}, GMT equivalent: {time_gmt_minus_03_30}"
+    }
+  ]
+  
