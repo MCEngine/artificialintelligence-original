@@ -4,7 +4,7 @@ plugins {
 }
 
 // Set project version using a property, defaulting to 'unspecified' if not found
-version = '1.4.1-SNAPSHOT'
+version = '1.4.1-RELEASE'
 group = 'io.github.mcengine'
 
 ext {
