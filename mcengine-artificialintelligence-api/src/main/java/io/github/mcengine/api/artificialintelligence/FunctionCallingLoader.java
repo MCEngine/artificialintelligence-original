@@ -5,7 +5,7 @@ import org.bukkit.plugin.Plugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import io.github.mcengine.api.artificialintelligence.util.MCEngineArtificialIntelligenceApiUtil;
+import io.github.mcengine.api.artificialintelligence.IMCEngineArtificialIntelligenceApi;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -14,6 +14,7 @@ import java.util.List;
 
 public class FunctionCallingLoader {
 
+    private final IMCEngineArtificialIntelligenceApi aiApi;
     private final MCEngineArtificialIntelligenceApiUtil logger;
 
     public static class FunctionRule {
@@ -28,7 +29,8 @@ public class FunctionCallingLoader {
 
     private final List<FunctionRule> mergedRules = new ArrayList<>();
 
-    public FunctionCallingLoader(Plugin plugin) {
+    public FunctionCallingLoader(Plugin plugin, IMCEngineArtificialIntelligenceApi aiApi) {
+        this.aiApi = aiApi;
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
         File rootFolder = new File(plugin.getDataFolder(), "datas");
         if (!rootFolder.exists()) rootFolder.mkdirs();
