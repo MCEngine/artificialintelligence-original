@@ -13,12 +13,9 @@ import java.util.*;
 
 public class FunctionCallingLoader {
 
-    private final IMCEngineArtificialIntelligenceApi aiApi;
     private final List<FunctionRule> mergedRules = new ArrayList<>();
 
-    public FunctionCallingLoader(Plugin plugin, IMCEngineArtificialIntelligenceApi aiApi) {
-        this.aiApi = aiApi;
-
+    public FunctionCallingLoader(Plugin plugin) {
         String dbType = plugin.getConfig().getString("dbType", "json").toLowerCase();
 
         File jsonFolder = null;
