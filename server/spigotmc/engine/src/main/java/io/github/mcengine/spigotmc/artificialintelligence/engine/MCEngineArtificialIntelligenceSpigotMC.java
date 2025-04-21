@@ -1,5 +1,6 @@
 package io.github.mcengine.spigotmc.artificialintelligence.engine;
 
+import io.github.mcengine.api.artificialintelligence.ConversationManager;
 import io.github.mcengine.api.artificialintelligence.FunctionCallingLoader;
 import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
 import io.github.mcengine.api.artificialintelligence.ThreadPoolManager;
@@ -50,6 +51,8 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
     public void onDisable() {
         getLogger().info("MCEngine Artificial Intelligence Disabled.");
         HandlerList.unregisterAll(this);
+
+        ConversationManager.terminateAll();
     }
 
     public void reloadAiComponents() {
