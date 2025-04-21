@@ -26,7 +26,8 @@ public class MCEngineArtificialIntelligenceApiOpenAi implements IMCEngineArtific
         this.token = plugin.getConfig().getString("ai.openai.token", null);
         this.aiModel = plugin.getConfig().getString("ai.openai.model", "gpt-3.5-turbo");
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
-        logger.info("Using OpenAI model: " + aiModel);
+        logger.info("Platform: OpenAI");
+        logger.info("Model: " + aiModel);
     }
 
     @Override

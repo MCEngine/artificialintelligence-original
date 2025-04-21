@@ -37,7 +37,8 @@ public class MCEngineArtificialIntelligenceApiDeepSeek implements IMCEngineArtif
         this.token = plugin.getConfig().getString("ai.deepseek.token", null);
         this.aiModel = plugin.getConfig().getString("ai.deepseek.model", "deepseek-chat");
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
-        logger.info("Using model: " + aiModel);
+        logger.info("Platform: DeepSeek");
+        logger.info("Model: " + aiModel);
     }
 
     /**

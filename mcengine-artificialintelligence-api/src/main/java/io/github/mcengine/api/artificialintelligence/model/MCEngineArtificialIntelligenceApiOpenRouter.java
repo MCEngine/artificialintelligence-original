@@ -26,7 +26,8 @@ public class MCEngineArtificialIntelligenceApiOpenRouter implements IMCEngineArt
         this.token = plugin.getConfig().getString("ai.openrouter.token", null);
         this.aiModel = plugin.getConfig().getString("ai.openrouter.model", "mistralai/mistral-7b-instruct");
         this.logger = new MCEngineArtificialIntelligenceApiUtil(plugin.getLogger());
-        logger.info("Using OpenRouter model: " + aiModel);
+        logger.info("Platform: OpenRouter");
+        logger.info("Model: " + aiModel);
     }
 
     @Override
