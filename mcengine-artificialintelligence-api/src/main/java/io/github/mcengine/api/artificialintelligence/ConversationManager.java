@@ -12,6 +12,7 @@ public class ConversationManager {
 
     private static final Map<UUID, StringBuilder> playerConversations = new ConcurrentHashMap<>();
     private static final Set<UUID> activePlayers = ConcurrentHashMap.newKeySet();
+    private static final Set<UUID> waitingPlayers = ConcurrentHashMap.newKeySet();
 
     public static void startConversation(Player player) {
         playerConversations.put(player.getUniqueId(), new StringBuilder());
@@ -44,6 +45,19 @@ public class ConversationManager {
     public static void terminate(Player player) {
         end(player);
         deactivate(player);
+        setWaiting(player, false);
+    }
+
+    public static boolean isWaiting(Player player) {
+        return waitingPlayers.contains(player.getUniqueId());
+    }
+    
+    public static void setWaiting(Player player, boolean waiting) {
+        if (waiting) {
+            waitingPlayers.add(player.getUniqueId());
+        } else {
+            waitingPlayers.remove(player.getUniqueId());
+        }
     }
 
     public static void terminateAll() {
