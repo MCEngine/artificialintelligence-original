@@ -59,13 +59,13 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
         try {
             HandlerList.unregisterAll(this);
             reloadConfig();
-
+    
             artificialintelligenceApi = new MCEngineArtificialIntelligenceApi(this);
             threadPoolManager = new ThreadPoolManager(this);
-            functionCallingLoader = new FunctionCallingLoader(this);
-
+            functionCallingLoader = artificialintelligenceApi.getFunctionCallingLoader();
+    
             PluginManager pluginManager = getServer().getPluginManager();
-
+    
             if (getConfig().getBoolean("conversation.keep", false)) {
                 pluginManager.registerEvents(
                     new MCEngineArtificialIntelligenceCommonListenerConversation(
@@ -74,17 +74,17 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
                     this
                 );
             }
-
+    
             getCommand("ai").setExecutor(
                 new MCEngineArtificialIntelligenceCommonCommand(this, this::reloadAiComponents)
             );
-
+    
             getLogger().info("AI components reloaded successfully.");
         } catch (Exception e) {
             getLogger().severe("Failed to reload AI components: " + e.getMessage());
             e.printStackTrace();
         }
-    }
+    }    
 
     /**
      * Returns the singleton instance of the plugin.
