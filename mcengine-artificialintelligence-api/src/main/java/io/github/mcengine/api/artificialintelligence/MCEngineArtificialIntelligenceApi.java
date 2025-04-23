@@ -1,6 +1,6 @@
 package io.github.mcengine.api.artificialintelligence;
 
-import io.github.mcengine.api.artificialintelligence.functions.calling.FunctionCallingLoader;
+import io.github.mcengine.api.artificialintelligence.FunctionCallingLoader;
 import io.github.mcengine.api.artificialintelligence.model.*;
 
 import org.bukkit.plugin.Plugin;
