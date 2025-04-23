@@ -16,7 +16,7 @@ public class FunctionCallingLoader {
     private final List<FunctionRule> mergedRules = new ArrayList<>();
 
     public FunctionCallingLoader(Plugin plugin) {
-        String dbType = plugin.getConfig().getString("dbType", "json").toLowerCase();
+        String dbType = plugin.getConfig().getString("db.type", "json").toLowerCase();
 
         File jsonFolder = null;
         if (dbType.equals("json")) {

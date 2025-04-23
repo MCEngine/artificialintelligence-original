@@ -12,7 +12,7 @@ public class MCEngineArtificialIntelligenceApi {
 
     public MCEngineArtificialIntelligenceApi(Plugin plugin) {
         // Load AI model
-        String aiType = plugin.getConfig().getString("aiType", "deepseek");
+        String aiType = plugin.getConfig().getString("ai.type", "deepseek");
         switch (aiType.toLowerCase()) {
             case "custom" -> this.ai = new MCEngineArtificialIntelligenceApiCustomUrl(plugin);
             case "deepseek" -> this.ai = new MCEngineArtificialIntelligenceApiDeepSeek(plugin);
