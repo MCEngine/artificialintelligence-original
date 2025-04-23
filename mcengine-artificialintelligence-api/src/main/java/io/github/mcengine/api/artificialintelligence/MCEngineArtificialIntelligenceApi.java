@@ -1,47 +1,28 @@
 package io.github.mcengine.api.artificialintelligence;
 
-import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiCustomUrl;
-import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiDeepSeek;
-import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiOpenAi;
-import io.github.mcengine.api.artificialintelligence.model.MCEngineArtificialIntelligenceApiOpenRouter;
+import io.github.mcengine.api.artificialintelligence.functions.calling.FunctionCallingLoader;
+import io.github.mcengine.api.artificialintelligence.model.*;
 
 import org.bukkit.plugin.Plugin;
 
-/**
- * This class acts as a central access point for the MCEngine Artificial Intelligence API.
- * It initializes and interacts with the AI model based on the plugin configuration.
- */
-public class MCEngineArtificialIntelligenceApi implements IMCEngineArtificialIntelligenceApi {
+public class MCEngineArtificialIntelligenceApi {
 
-    /** Interface for AI model interaction. */
     private final IMCEngineArtificialIntelligenceApi ai;
+    private final FunctionCallingLoader functionCallingLoader;
 
-    /**
-     * Constructs the AI API with the specified plugin context.
-     * It reads the AI type from the plugin config and initializes the corresponding model.
-     *
-     * @param plugin The plugin instance that is using this API.
-     * @throws IllegalArgumentException If the configured AI type is not supported.
-     */
     public MCEngineArtificialIntelligenceApi(Plugin plugin) {
+        // Load AI model
         String aiType = plugin.getConfig().getString("aiType", "deepseek");
-
         switch (aiType.toLowerCase()) {
-            case "custom":
-                this.ai = new MCEngineArtificialIntelligenceApiCustomUrl(plugin);
-                break;
-            case "deepseek":
-                this.ai = new MCEngineArtificialIntelligenceApiDeepSeek(plugin);
-                break;
-            case "openai":
-                this.ai = new MCEngineArtificialIntelligenceApiOpenAi(plugin);
-                break;
-            case "openrouter":
-                this.ai = new MCEngineArtificialIntelligenceApiOpenRouter(plugin);
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported AI type: " + aiType);
+            case "custom" -> this.ai = new MCEngineArtificialIntelligenceApiCustomUrl(plugin);
+            case "deepseek" -> this.ai = new MCEngineArtificialIntelligenceApiDeepSeek(plugin);
+            case "openai" -> this.ai = new MCEngineArtificialIntelligenceApiOpenAi(plugin);
+            case "openrouter" -> this.ai = new MCEngineArtificialIntelligenceApiOpenRouter(plugin);
+            default -> throw new IllegalArgumentException("Unsupported AI type: " + aiType);
         }
+
+        // Load FunctionCallingLoader for addon support
+        this.functionCallingLoader = new FunctionCallingLoader(plugin);
     }
 
     /**
@@ -52,5 +33,9 @@ public class MCEngineArtificialIntelligenceApi implements IMCEngineArtificialInt
      */
     public String getResponse(String message) {
         return ai.getResponse(message);
+    }
+
+    public FunctionCallingLoader getFunctionCallingLoader() {
+        return this.functionCallingLoader;
     }
 }
