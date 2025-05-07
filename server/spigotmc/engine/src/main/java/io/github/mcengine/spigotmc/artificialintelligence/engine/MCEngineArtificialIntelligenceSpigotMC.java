@@ -6,6 +6,7 @@ import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntellige
 import io.github.mcengine.api.artificialintelligence.ThreadPoolManager;
 import io.github.mcengine.common.artificialintelligence.command.MCEngineArtificialIntelligenceCommonCommand;
 import io.github.mcengine.common.artificialintelligence.listener.MCEngineArtificialIntelligenceCommonListenerConversation;
+import io.github.mcengine.common.artificialintelligence.tabcompleter.MCEngineArtificialIntelligenceCommonTabCompleter;
 import io.github.mcengine.spigotmc.artificialintelligence.engine.Metrics;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
@@ -77,6 +78,9 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
     
             getCommand("ai").setExecutor(
                 new MCEngineArtificialIntelligenceCommonCommand(this, this::reloadAiComponents)
+            );
+            getCommand("ai").setTabCompleter(
+                new MCEngineArtificialIntelligenceCommonTabCompleter()
             );
     
             getLogger().info("AI components reloaded successfully.");
