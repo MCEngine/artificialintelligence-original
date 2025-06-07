@@ -1,7 +1,3 @@
-# **Imortant**
-
-Move to [`Artificial Intelligence`](https://github.com/MCEngine/artificialintelligence)
-
 # ⚠️ Warning
 
 This plugin is always kept up-to-date with the latest version of SpigotMC.
