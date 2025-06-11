@@ -15,15 +15,18 @@ public class FunctionCallingLoader {
     private final List<FunctionRule> mergedRules = new ArrayList<>();
 
     public FunctionCallingLoader(Plugin plugin) {
-        // Fix: use "dbType" from config.yml (not "db.type")
+        this(plugin, false);
+    }
+
+    public FunctionCallingLoader(Plugin plugin, boolean silent) {
         String dbType = plugin.getConfig().getString("dbType", "json").toLowerCase();
-        plugin.getLogger().info("Using DB type: " + dbType);
+        if (!silent) plugin.getLogger().info("Using DB type: " + dbType);
 
         File jsonFolder = null;
         if (dbType.equals("json")) {
             String path = plugin.getConfig().getString("db.json.path", "json");
             jsonFolder = new File(plugin.getDataFolder(), path);
-            plugin.getLogger().info("Loading function rules from: " + jsonFolder.getPath());
+            if (!silent) plugin.getLogger().info("Loading function rules from: " + jsonFolder.getPath());
         }
 
         IFunctionCallingLoader orm = switch (dbType) {
@@ -34,9 +37,12 @@ public class FunctionCallingLoader {
         List<FunctionRule> rules = orm.loadFunctionRules();
         if (rules != null) {
             mergedRules.addAll(rules);
-            plugin.getLogger().info("Loaded " + rules.size() + " function rules.");
+            if (!silent) {
+                plugin.getLogger().info("Loaded " + rules.size() + " function rules.");
+                plugin.getLogger().info("This is all merge rule" + mergedRules);
+            }
         } else {
-            plugin.getLogger().warning("No function rules loaded.");
+            if (!silent) plugin.getLogger().warning("No function rules loaded.");
         }
     }
 

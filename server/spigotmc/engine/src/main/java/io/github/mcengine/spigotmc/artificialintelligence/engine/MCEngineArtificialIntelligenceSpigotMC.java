@@ -107,7 +107,7 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
             // Init API and systems
             artificialintelligenceApi = new MCEngineArtificialIntelligenceApi(this);
             threadPoolManager = new ThreadPoolManager(this);
-            functionCallingLoader = new FunctionCallingLoader(this);
+            functionCallingLoader = new FunctionCallingLoader(this, true);
 
             PluginManager pluginManager = getServer().getPluginManager();
 

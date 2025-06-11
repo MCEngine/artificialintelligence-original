@@ -29,6 +29,7 @@ public class FunctionCallingJson implements IFunctionCallingLoader {
         if (files == null) return;
 
         for (File file : files) {
+            System.out.println("File path: " + file.getAbsolutePath());
             if (file.isDirectory()) {
                 loadJsonFilesRecursively(file, rules);
             } else if (file.isFile() && file.getName().endsWith(".json")) {
