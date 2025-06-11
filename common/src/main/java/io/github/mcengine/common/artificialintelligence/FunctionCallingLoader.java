@@ -40,14 +40,14 @@ public class FunctionCallingLoader {
         }
     }
 
-    public List<String> match(Player player, String input) {
+    public List<String> match(Player player, String message) {
         List<String> results = new ArrayList<>();
-        String lowerInput = input.toLowerCase().trim();
+        String lowerMessage = message.toLowerCase().trim();
 
         for (FunctionRule rule : mergedRules) {
             for (String pattern : rule.match) {
                 String lowerPattern = pattern.toLowerCase();
-                if (lowerInput.contains(lowerPattern) || lowerPattern.contains(lowerInput)) {
+                if (lowerMessage.contains(lowerPattern) || lowerPattern.contains(lowerMessage)) {
                     String resolved = applyPlaceholders(rule.response, player);
                     results.add(resolved);
                     break;
