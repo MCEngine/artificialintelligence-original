@@ -2,9 +2,10 @@ plugins {
     id 'java'
 }
 
+def mcengineArtificialIntelligenceApiVersion = findProperty('mcengine-artificialintelligence-api.version') ?: 'undefined'
+
 dependencies {
-    // Self Api
-    compileOnly project(":mcengine-artificialintelligence-api")
+    implementation "io.github.mcengine:mcengine-artificialintelligence-api:$mcengineArtificialIntelligenceApiVersion"
 
     // Server Platform
     compileOnly 'org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT'
