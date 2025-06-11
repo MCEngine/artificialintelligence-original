@@ -1,6 +1,7 @@
 package io.github.mcengine.spigotmc.artificialintelligence.engine;
 
 import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
+import io.github.mcengine.api.artificialintelligence.util.MCEngineArtificialIntelligenceApiUtilBotManager;
 import io.github.mcengine.api.mcengine.MCEngineApi;
 import io.github.mcengine.api.mcengine.Metrics;
 import io.github.mcengine.common.artificialintelligence.FunctionCallingLoader;
@@ -93,6 +94,7 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
     public void onDisable() {
         getLogger().info("MCEngine Artificial Intelligence Disabled.");
         HandlerList.unregisterAll(this);
+        MCEngineArtificialIntelligenceApiUtilBotManager.terminateAll();
     }
 
     /**
@@ -100,6 +102,9 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
      */
     public void reloadAiComponents() {
         try {
+            // Terminate all player sessions before reload
+            MCEngineArtificialIntelligenceApiUtilBotManager.terminateAll();
+
             // Unregister all existing listeners
             HandlerList.unregisterAll(this);
             reloadConfig();
