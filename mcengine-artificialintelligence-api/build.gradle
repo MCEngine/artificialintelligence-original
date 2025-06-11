@@ -2,8 +2,6 @@ plugins {
     id 'java-library'
 }
 
-version = '1.4.2-RELEASE'
-
 dependencies {
     // Database
     compileOnly 'mysql:mysql-connector-java:8.0.33'
@@ -18,5 +16,5 @@ dependencies {
 
 shadowJar {
     version = version
-    archiveBaseName.set('MCEngineArtificialintelligence-Api')
+    archiveBaseName = "${project.jarName}-API"
 }

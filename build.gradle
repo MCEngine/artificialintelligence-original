@@ -4,7 +4,7 @@ plugins {
 }
 
 // Set project version using a property, defaulting to 'unspecified' if not found
-version = '1.5.0-RELEASE'
+version = project.properties[project.name + '.version'] ?: 'undefined'
 group = 'io.github.mcengine'
 
 ext {
@@ -50,6 +50,18 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'com.github.johnrengelman.shadow'
+
+    def versionPropertyKey = project.path.replace(':', '-')
+    if (versionPropertyKey.startsWith('-')) {
+        versionPropertyKey = versionPropertyKey.substring(1)
+    }
+
+    if (!versionPropertyKey.contains('-')) {
+        versionPropertyKey = project.name
+    }
+
+    versionPropertyKey += '.version'
+    version = project.properties[versionPropertyKey] ?: 'undefined'
 
     // Disable default JAR task if necessary
     tasks.named('jar').configure {
