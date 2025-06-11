@@ -1,6 +1,6 @@
 package io.github.mcengine.common.artificialintelligence.command;
 
-import io.github.mcengine.api.artificialintelligence.ConversationManager;
+import io.github.mcengine.api.artificialintelligence.util.MCEngineArtificialIntelligenceApiUtilBotManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,39 +34,25 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "Only players can use this command.");
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage("§cOnly players can use this command.");
             return true;
         }
 
-        Player player = (Player) sender;
-
-        // Handle /ai reload
-        if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
-            if (!sender.hasPermission("mcengine.artificialintelligence.reload")) {
-                sender.sendMessage(ChatColor.RED + "You do not have permission to reload the plugin.");
-                return true;
-            }
-
-            reloadTask.run();
-            ConversationManager.terminateAll();
-            sender.sendMessage(ChatColor.GREEN + "AI configuration reloaded.");
+        if (args.length < 2) {
+            player.sendMessage("§cUsage: /chatbot {platform} {model}");
             return true;
         }
 
-        // Handle /ai to start conversation
-        if (!player.hasPermission("mcengine.artificialintelligence.use")) {
-            player.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
-            return true;
-        }
+        String platform = args[0];
+        String model = args[1];
 
-        if (!ConversationManager.isActive(player)) {
-            ConversationManager.startConversation(player);
-            ConversationManager.activate(player);
-            player.sendMessage(ChatColor.GREEN + "AI conversation started. Type messages in chat. Type 'quit' to end.");
-        } else {
-            player.sendMessage(ChatColor.YELLOW + "You are already in a conversation. Type 'quit' to end.");
-        }
+        MCEngineArtificialIntelligenceApiUtilBotManager.setModel(player, platform, model);
+        MCEngineArtificialIntelligenceApiUtilBotManager.startConversation(player);
+        MCEngineArtificialIntelligenceApiUtilBotManager.activate(player);
+
+        player.sendMessage("§aYou are now chatting with the AI.");
+        player.sendMessage("§7Type your message in chat. Type 'quit' to end the conversation.");
 
         return true;
     }

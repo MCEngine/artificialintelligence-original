@@ -1,4 +1,4 @@
-package io.github.mcengine.api.artificialintelligence.functions.calling.json;
+package io.github.mcengine.common.artificialintelligence.functions.calling.json;
 
 import io.github.mcengine.common.artificialintelligence.functions.calling.FunctionRule;
 import io.github.mcengine.common.artificialintelligence.functions.calling.IFunctionCallingLoader;

@@ -2,10 +2,9 @@ package io.github.mcengine.common.artificialintelligence;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import io.github.mcengine.api.artificialintelligence.IMCEngineArtificialIntelligenceApi;
-import io.github.mcengine.api.artificialintelligence.functions.calling.IFunctionCallingLoader;
-import io.github.mcengine.api.artificialintelligence.functions.calling.FunctionRule;
-import io.github.mcengine.api.artificialintelligence.functions.calling.json.FunctionCallingJson;
+import io.github.mcengine.common.artificialintelligence.functions.calling.IFunctionCallingLoader;
+import io.github.mcengine.common.artificialintelligence.functions.calling.FunctionRule;
+import io.github.mcengine.common.artificialintelligence.functions.calling.json.FunctionCallingJson;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

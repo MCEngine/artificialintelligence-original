@@ -7,6 +7,8 @@ plugins {
 version = project.properties[project.name + '.version'] ?: 'undefined'
 group = 'io.github.mcengine'
 
+def mcengineArtificialIntelligenceApiVersion = findProperty('mcengine-artificialintelligence-api.version') ?: 'undefined'
+
 ext {
     /* Name */
     user_git_name = System.getenv('USER_GIT_NAME') ?: 'null'
@@ -86,7 +88,7 @@ subprojects {
         serverPlatforms.each { platform ->
             if (project.path == ":server:${platform}:engine") {
                 dependencies {
-                    implementation project(path: ':mcengine-artificialintelligence-api', configuration: 'shadow')
+                    implementation "io.github.mcengine:mcengine-artificialintelligence-api:$mcengineArtificialIntelligenceApiVersion"
                     implementation project(path: ':common', configuration: 'shadow')
 
                     def platformDir = rootProject.file("server/${platform}")
@@ -106,7 +108,6 @@ subprojects {
 
 // Root project dependencies
 dependencies {
-    implementation project(path: ':mcengine-artificialintelligence-api', configuration: 'shadow')
     implementation project(path: ':common', configuration: 'shadow')
 
     def platformModules = ['spigotmc']
