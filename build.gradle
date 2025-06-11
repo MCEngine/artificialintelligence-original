@@ -10,7 +10,7 @@ group = 'io.github.mcengine'
 ext {
     /* Name */
     user_git_name = System.getenv('USER_GIT_NAME') ?: 'null'
-    git_user_token = System.getenv('USER_GITHUB_TOKEN') ?: 'null'
+    user_github_token = System.getenv('USER_GITHUB_TOKEN') ?: 'null'
 
     organization_name = System.getenv('ORGANIZATION_NAME') ?: 'MCEngine'
     organization_token = System.getenv('ORGANIZATION_TOKEN') ?: 'null'
