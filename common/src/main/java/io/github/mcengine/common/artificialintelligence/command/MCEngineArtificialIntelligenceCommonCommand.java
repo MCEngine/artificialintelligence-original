@@ -1,13 +1,11 @@
 package io.github.mcengine.common.artificialintelligence.command;
 
-import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
 import io.github.mcengine.api.artificialintelligence.util.MCEngineArtificialIntelligenceApiUtilBotManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 /**
  * Command executor for the /ai command.
@@ -17,11 +15,9 @@ import org.bukkit.plugin.Plugin;
  */
 public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecutor {
 
-    private final Plugin plugin;
     private final Runnable reloadTask;
 
-    public MCEngineArtificialIntelligenceCommonCommand(Plugin plugin, Runnable reloadTask) {
-        this.plugin = plugin;
+    public MCEngineArtificialIntelligenceCommonCommand(Runnable reloadTask) {
         this.reloadTask = reloadTask;
     }
 
@@ -52,9 +48,6 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
             sender.sendMessage(ChatColor.RED + "Only players can use this command.");
             return true;
         }
-
-        // Get API instance
-        MCEngineArtificialIntelligenceApi api = MCEngineArtificialIntelligenceApi.getApi();
 
         if (args.length == 0) {
             if (!MCEngineArtificialIntelligenceApiUtilBotManager.isActive(player)) {

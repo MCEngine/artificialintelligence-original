@@ -130,7 +130,7 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
 
             // Register /ai command and tab completer
             getCommand("ai").setExecutor(
-                new MCEngineArtificialIntelligenceCommonCommand(this, this::reloadAiComponents)
+                new MCEngineArtificialIntelligenceCommonCommand(this::reloadAiComponents)
             );
             getCommand("ai").setTabCompleter(
                 new MCEngineArtificialIntelligenceCommonTabCompleter()
