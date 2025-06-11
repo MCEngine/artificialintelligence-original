@@ -43,6 +43,8 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
         }
 
         reloadAiComponents();
+
+        MCEngineApi.checkUpdate(this, getLogger(), "github", "MCEngine", "artificialintelligence-original", getConfig().getString("github.token", "null"));
     }
 
     /**
