@@ -7,8 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static io.github.mcengine.common.artificialintelligence.util.FunctionCallingLoaderUtilTime.*;
 
 public class FunctionCallingLoader {
 
@@ -19,6 +20,7 @@ public class FunctionCallingLoader {
     }
 
     public FunctionCallingLoader(Plugin plugin, boolean silent) {
+        // Fix: use "dbType" from config.yml (not "db.type")
         String dbType = plugin.getConfig().getString("dbType", "json").toLowerCase();
         if (!silent) plugin.getLogger().info("Using DB type: " + dbType);
 
@@ -84,6 +86,7 @@ public class FunctionCallingLoader {
                 Map.entry("{time_los_angeles}", getFormattedTime("America/Los_Angeles")),
                 Map.entry("{time_toronto}", getFormattedTime("America/Toronto"))
         );
+
         for (Map.Entry<String, String> entry : namedZones.entrySet()) {
             response = response.replace(entry.getKey(), entry.getValue());
         }
@@ -100,23 +103,5 @@ public class FunctionCallingLoader {
         }
 
         return response;
-    }
-
-    private String getFormattedTime(TimeZone timeZone) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        sdf.setTimeZone(timeZone);
-        return sdf.format(new Date());
-    }
-
-    private String getFormattedTime(String zoneId) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone(zoneId));
-        return sdf.format(new Date());
-    }
-
-    private String getZoneLabel(String prefix, int hour, int minute) {
-        String sign = hour >= 0 ? "plus" : "minus";
-        int absHour = Math.abs(hour);
-        return String.format("{time_%s_%s_%02d_%02d}", prefix, sign, absHour, minute);
     }
 }
