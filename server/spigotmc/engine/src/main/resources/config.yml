@@ -6,31 +6,44 @@ db:
   json:
     path: datas
 
-aiType: deepseek
-
 ai:
   custom:
-    url: http://localhost:11434/v1/chat/completions
-    token:
-    model:
+    # You can define multiple servers under "custom"
+    # Each server can have its own URL, token, and default model
+
+    server1:
+      # API endpoint URL for server1
+      url: http://localhost:11434/v1/chat/completions
+      # Authorization token for server1
+      token:
+      # Default model name for server1
+      models:
+        model1: model1
+
+    server2:
+      # API endpoint URL for server2
+      url: http://localhost:11435/v1/chat/completions
+      # Authorization token for server2
+      token:
+      # Default model name for server2
+      models:
+        model1: model1
+        model2: model2
 
   deepseek:
     token:
-    model: deepseek-chat
+    # Default model loaded when the plugin starts
+    models:
+      model1:
 
   openai:
     token:
-    model: gpt-3.5-turbo
+    # Default model loaded when the plugin starts
+    models:
+      model1:
 
   openrouter:
     token:
-    model:
-
-threadpool:
-  core: 16
-  max: 64
-  queue: 128
-  keepalive: 60
-
-conversation:
-  keep: true
+    # Default model loaded when the plugin starts
+    models:
+      model1:
