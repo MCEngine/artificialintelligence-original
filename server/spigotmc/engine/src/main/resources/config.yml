@@ -1,8 +1,7 @@
 enable: false
 
-dbType: json
-
 db:
+  type: json
   json:
     path: datas
 

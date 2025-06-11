@@ -1,10 +1,10 @@
 package io.github.mcengine.common.artificialintelligence;
 
+import io.github.mcengine.common.artificialintelligence.functions.calling.FunctionRule;
+import io.github.mcengine.common.artificialintelligence.functions.calling.IFunctionCallingLoader;
+import io.github.mcengine.common.artificialintelligence.functions.calling.json.FunctionCallingJson;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import io.github.mcengine.common.artificialintelligence.functions.calling.IFunctionCallingLoader;
-import io.github.mcengine.common.artificialintelligence.functions.calling.FunctionRule;
-import io.github.mcengine.common.artificialintelligence.functions.calling.json.FunctionCallingJson;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -15,11 +15,15 @@ public class FunctionCallingLoader {
     private final List<FunctionRule> mergedRules = new ArrayList<>();
 
     public FunctionCallingLoader(Plugin plugin) {
-        String dbType = plugin.getConfig().getString("db.type", "json").toLowerCase();
+        // Fix: use "dbType" from config.yml (not "db.type")
+        String dbType = plugin.getConfig().getString("dbType", "json").toLowerCase();
+        plugin.getLogger().info("Using DB type: " + dbType);
 
         File jsonFolder = null;
         if (dbType.equals("json")) {
-            jsonFolder = new File(plugin.getDataFolder(), plugin.getConfig().getString("db.json.path", "json"));
+            String path = plugin.getConfig().getString("db.json.path", "json");
+            jsonFolder = new File(plugin.getDataFolder(), path);
+            plugin.getLogger().info("Loading function rules from: " + jsonFolder.getPath());
         }
 
         IFunctionCallingLoader orm = switch (dbType) {
@@ -28,7 +32,12 @@ public class FunctionCallingLoader {
         };
 
         List<FunctionRule> rules = orm.loadFunctionRules();
-        if (rules != null) mergedRules.addAll(rules);
+        if (rules != null) {
+            mergedRules.addAll(rules);
+            plugin.getLogger().info("Loaded " + rules.size() + " function rules.");
+        } else {
+            plugin.getLogger().warning("No function rules loaded.");
+        }
     }
 
     public List<String> match(Player player, String input) {
@@ -50,16 +59,13 @@ public class FunctionCallingLoader {
     }
 
     private String applyPlaceholders(String response, Player player) {
-        // Base placeholders
         response = response
                 .replace("{player_name}", player.getName())
                 .replace("{player_uuid}", player.getUniqueId().toString())
                 .replace("{time_server}", getFormattedTime(TimeZone.getDefault()))
                 .replace("{time_utc}", getFormattedTime(TimeZone.getTimeZone("UTC")))
-                .replace("{time_gmt}", getFormattedTime(TimeZone.getTimeZone("GMT")))
-                .replace("{time_server}", getFormattedTime(TimeZone.getDefault()));
+                .replace("{time_gmt}", getFormattedTime(TimeZone.getTimeZone("GMT")));
 
-        // Named time zones
         Map<String, String> namedZones = Map.ofEntries(
                 Map.entry("{time_new_york}", getFormattedTime("America/New_York")),
                 Map.entry("{time_london}", getFormattedTime("Europe/London")),
@@ -76,7 +82,6 @@ public class FunctionCallingLoader {
             response = response.replace(entry.getKey(), entry.getValue());
         }
 
-        // UTC & GMT offset zones dynamically
         for (int hour = -12; hour <= 14; hour++) {
             for (int min : new int[]{0, 30, 45}) {
                 String utcLabel = getZoneLabel("utc", hour, min);
