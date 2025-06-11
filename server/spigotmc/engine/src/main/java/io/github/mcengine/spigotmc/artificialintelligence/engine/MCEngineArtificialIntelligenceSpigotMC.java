@@ -4,6 +4,7 @@ import io.github.mcengine.api.artificialintelligence.ConversationManager;
 import io.github.mcengine.api.artificialintelligence.FunctionCallingLoader;
 import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
 import io.github.mcengine.api.artificialintelligence.ThreadPoolManager;
+import io.github.mcengine.api.mcengine.MCEngineApi;
 import io.github.mcengine.common.artificialintelligence.command.MCEngineArtificialIntelligenceCommonCommand;
 import io.github.mcengine.common.artificialintelligence.listener.MCEngineArtificialIntelligenceCommonListenerConversation;
 import io.github.mcengine.common.artificialintelligence.tabcompleter.MCEngineArtificialIntelligenceCommonTabCompleter;
