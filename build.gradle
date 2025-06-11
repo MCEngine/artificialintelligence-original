@@ -94,49 +94,6 @@ subprojects {
             }
         }
     }
-
-    // Publishing setup for mcengine-artificialintelligence-api
-    if (project.name == 'mcengine-artificialintelligence-api') {
-        apply plugin: 'maven-publish'
-
-        publishing {
-            repositories {
-                maven {
-                    name = 'GitHubPackages'
-                    url = uri("https://maven.pkg.github.com/${project.organization_name}/${project.repository_name}")
-                    credentials {
-                        username = project.user_git_name
-                        password = project.git_user_token ?: project.repository_token ?: project.organization_token
-                    }
-                }
-            }
-            publications {
-                mavenJava(MavenPublication) {
-                    artifact(tasks.named('shadowJar').get())
-
-                    pom {
-                        name = 'MCEnginebackpack'
-                        url = "https://github.com/${project.organization_name}/${project.repository_name}"
-
-                        scm {
-                            connection = "scm:git:git://github.com/${project.organization_name}/${project.repository_name}.git"
-                            developerConnection = "scm:git:ssh://github.com:${project.organization_name}/${project.repository_name}.git"
-                            url = "https://github.com/${project.organization_name}/${project.repository_name}"
-                        }
-
-                        developers {
-                            developer {
-                                id = 'jetsadawijit'
-                                name = 'Jetsada Wijit'
-                                email = 'jetsadawijit@outlook.com'
-                                url = 'https://jetsadawijit.github.io'
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 // Root project dependencies
