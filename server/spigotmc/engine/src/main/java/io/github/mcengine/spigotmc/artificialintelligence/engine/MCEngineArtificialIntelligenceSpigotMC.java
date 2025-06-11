@@ -26,7 +26,13 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
 
     /** API for accessing and managing AI functionality. */
     private MCEngineArtificialIntelligenceApi artificialintelligenceApi;
+
+    /** Unused but preserved for future features. */
+    @SuppressWarnings("unused")
     private ThreadPoolManager threadPoolManager;
+
+    /** Unused but preserved for future features. */
+    @SuppressWarnings("unused")
     private FunctionCallingLoader functionCallingLoader;
 
     @Override
