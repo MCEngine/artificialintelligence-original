@@ -70,7 +70,7 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
             if (getConfig().getBoolean("conversation.keep", false)) {
                 pluginManager.registerEvents(
                     new MCEngineArtificialIntelligenceCommonListenerConversation(
-                        this, artificialintelligenceApi, functionCallingLoader
+                        this, functionCallingLoader
                     ),
                     this
                 );

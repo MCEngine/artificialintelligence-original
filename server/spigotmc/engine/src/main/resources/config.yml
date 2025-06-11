@@ -47,3 +47,12 @@ ai:
     # Default model loaded when the plugin starts
     models:
       model1:
+
+threadpool:
+  core: 16
+  max: 64
+  queue: 128
+  keepalive: 60
+
+conversation:
+  keep: true

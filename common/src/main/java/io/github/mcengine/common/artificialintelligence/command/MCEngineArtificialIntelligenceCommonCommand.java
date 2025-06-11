@@ -1,5 +1,6 @@
 package io.github.mcengine.common.artificialintelligence.command;
 
+import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
 import io.github.mcengine.api.artificialintelligence.util.MCEngineArtificialIntelligenceApiUtilBotManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,8 +11,8 @@ import org.bukkit.plugin.Plugin;
 
 /**
  * Command executor for the /ai command.
- * This allows players to interact with an AI model by sending a message and receiving a response.
- * All AI communication is performed asynchronously to avoid blocking the main thread.
+ * This allows players to start or restart an AI conversation session with a specified platform and model.
+ * If a platform and model are not specified, it continues using the previous session data.
  */
 public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecutor {
 
@@ -35,12 +36,26 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§cOnly players can use this command.");
+            sender.sendMessage(ChatColor.RED + "Only players can use this command.");
+            return true;
+        }
+
+        // Get API instance
+        MCEngineArtificialIntelligenceApi api = MCEngineArtificialIntelligenceApi.getApi();
+
+        if (args.length == 0) {
+            if (!MCEngineArtificialIntelligenceApiUtilBotManager.isActive(player)) {
+                player.sendMessage(ChatColor.RED + "No active session found. Use /ai <platform> <model> to start.");
+                return true;
+            }
+
+            MCEngineArtificialIntelligenceApiUtilBotManager.activate(player);
+            player.sendMessage(ChatColor.GREEN + "You resumed chatting with the AI.");
             return true;
         }
 
         if (args.length < 2) {
-            player.sendMessage("§cUsage: /chatbot {platform} {model}");
+            player.sendMessage(ChatColor.RED + "Usage: /ai <platform> <model>");
             return true;
         }
 
@@ -51,8 +66,8 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
         MCEngineArtificialIntelligenceApiUtilBotManager.startConversation(player);
         MCEngineArtificialIntelligenceApiUtilBotManager.activate(player);
 
-        player.sendMessage("§aYou are now chatting with the AI.");
-        player.sendMessage("§7Type your message in chat. Type 'quit' to end the conversation.");
+        player.sendMessage(ChatColor.GREEN + "You are now chatting with the AI.");
+        player.sendMessage(ChatColor.GRAY + "Type your message in chat. Type 'quit' to end the conversation.");
 
         return true;
     }

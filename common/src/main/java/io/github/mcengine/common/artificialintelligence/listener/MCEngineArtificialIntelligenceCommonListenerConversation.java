@@ -11,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
@@ -21,33 +20,32 @@ import java.util.List;
 public class MCEngineArtificialIntelligenceCommonListenerConversation implements Listener {
 
     private final Plugin plugin;
-    private final MCEngineArtificialIntelligenceApi aiApi;
-    private final FunctionCallingLoader functionLoader;
+    private final FunctionCallingLoader functionCallingLoader;
     private final boolean keepConversation;
 
-    public MCEngineArtificialIntelligenceCommonListenerConversation(Plugin plugin, MCEngineArtificialIntelligenceApi aiApi, FunctionCallingLoader functionLoader) {
+    public MCEngineArtificialIntelligenceCommonListenerConversation(Plugin plugin, FunctionCallingLoader functionCallingLoader) {
         this.plugin = plugin;
-        this.aiApi = aiApi;
-        this.functionLoader = functionLoader;
+        this.functionCallingLoader = functionCallingLoader;
         this.keepConversation = plugin.getConfig().getBoolean("conversation.keep", false);
     }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
+
         if (!MCEngineArtificialIntelligenceApiUtilBotManager.isActive(player)) return;
 
         event.setCancelled(true);
         event.getRecipients().clear();
 
-        if (aiApi.checkWaitingPlayer(player)) {
+        MCEngineArtificialIntelligenceApi api = MCEngineArtificialIntelligenceApi.getApi();
+
+        if (api.checkWaitingPlayer(player)) {
             player.sendMessage(ChatColor.RED + "⏳ Please wait for the AI to respond before sending another message.");
             return;
         }
 
         String message = event.getMessage().trim();
-
-        player.sendMessage(ChatColor.GRAY + "[You → AI]: " + ChatColor.WHITE + message);
 
         if (message.equalsIgnoreCase("quit")) {
             MCEngineArtificialIntelligenceApiUtilBotManager.terminate(player);
@@ -57,28 +55,28 @@ public class MCEngineArtificialIntelligenceCommonListenerConversation implements
             return;
         }
 
-        aiApi.setWaiting(player, true);
+        player.sendMessage(ChatColor.GRAY + "[You → AI]: " + ChatColor.WHITE + message);
 
-        StringBuilder contextInfo = new StringBuilder();
-        List<String> matchedResponses = functionLoader.match(player, message);
-        for (String res : matchedResponses) {
-            contextInfo.append(res).append("\n");
-        }
+        List<String> matched = functionCallingLoader.match(player, message);
+        String fullMessage = message;
 
-        String userInput = message;
-        if (contextInfo.length() > 0) {
-            userInput += "\n\n[Function Info]\n" + contextInfo;
+        if (!matched.isEmpty()) {
+            StringBuilder sb = new StringBuilder(message).append("\n\n[Function Info]\n");
+            for (String entry : matched) {
+                sb.append("- ").append(entry).append("\n");
+            }
+            fullMessage = sb.toString();
         }
 
         if (keepConversation) {
             MCEngineArtificialIntelligenceApiUtilBotManager.append(player, "You: " + message);
-            userInput = MCEngineArtificialIntelligenceApiUtilBotManager.get(player);
+            fullMessage = MCEngineArtificialIntelligenceApiUtilBotManager.get(player);
         }
 
         String platform = MCEngineArtificialIntelligenceApiUtilBotManager.getPlatform(player);
         String model = MCEngineArtificialIntelligenceApiUtilBotManager.getModel(player);
 
-        aiApi.runBotTask(player, "server", platform, model, userInput);
+        api.runBotTask(player, "server", platform, model, fullMessage);
     }
 
     @EventHandler
