@@ -23,9 +23,9 @@ public class MCEngineArtificialIntelligenceCommonListenerConversation implements
     private final FunctionCallingLoader functionCallingLoader;
     private final boolean keepConversation;
 
-    public MCEngineArtificialIntelligenceCommonListenerConversation(Plugin plugin, FunctionCallingLoader functionCallingLoader) {
+    public MCEngineArtificialIntelligenceCommonListenerConversation(Plugin plugin) {
         this.plugin = plugin;
-        this.functionCallingLoader = functionCallingLoader;
+        this.functionCallingLoader = new FunctionCallingLoader(plugin);
         this.keepConversation = plugin.getConfig().getBoolean("conversation.keep", false);
     }
 
@@ -40,13 +40,15 @@ public class MCEngineArtificialIntelligenceCommonListenerConversation implements
 
         MCEngineArtificialIntelligenceApi api = MCEngineArtificialIntelligenceApi.getApi();
 
+        String message = event.getMessage().trim();
+
+        // Prevent message during wait
         if (api.checkWaitingPlayer(player)) {
             player.sendMessage(ChatColor.RED + "⏳ Please wait for the AI to respond before sending another message.");
             return;
         }
 
-        String message = event.getMessage().trim();
-
+        // Handle quit command
         if (message.equalsIgnoreCase("quit")) {
             MCEngineArtificialIntelligenceApiUtilBotManager.terminate(player);
             Bukkit.getScheduler().runTask(plugin, () ->
@@ -57,7 +59,14 @@ public class MCEngineArtificialIntelligenceCommonListenerConversation implements
 
         player.sendMessage(ChatColor.GRAY + "[You → AI]: " + ChatColor.WHITE + message);
 
-        List<String> matched = functionCallingLoader.match(player, message);
+        List<String> matched;
+        try {
+            matched = functionCallingLoader.match(player, message);
+        } catch (Exception e) {
+            matched = List.of();
+            plugin.getLogger().warning("Function matching failed: " + e.getMessage());
+        }
+
         String fullMessage = message;
 
         if (!matched.isEmpty()) {

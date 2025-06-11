@@ -1,13 +1,14 @@
 package io.github.mcengine.spigotmc.artificialintelligence.engine;
 
-import io.github.mcengine.common.artificialintelligence.FunctionCallingLoader;
 import io.github.mcengine.api.artificialintelligence.MCEngineArtificialIntelligenceApi;
-import io.github.mcengine.common.artificialintelligence.ThreadPoolManager;
 import io.github.mcengine.api.mcengine.MCEngineApi;
 import io.github.mcengine.api.mcengine.Metrics;
+import io.github.mcengine.common.artificialintelligence.FunctionCallingLoader;
+import io.github.mcengine.common.artificialintelligence.ThreadPoolManager;
 import io.github.mcengine.common.artificialintelligence.command.MCEngineArtificialIntelligenceCommonCommand;
 import io.github.mcengine.common.artificialintelligence.listener.MCEngineArtificialIntelligenceCommonListenerConversation;
 import io.github.mcengine.common.artificialintelligence.tabcompleter.MCEngineArtificialIntelligenceCommonTabCompleter;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,16 +35,51 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
         // Initialize bStats metrics
         new Metrics(this, 25556);
 
+        // Save default config if missing
         saveDefaultConfig();
 
-        if (!getConfig().getBoolean("enable", true)) {
+        // Check config to optionally disable plugin
+        if (!getConfig().getBoolean("enable", false)) {
             getLogger().info("Plugin disabled via config.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
+        // Initialize and register AI systems
         reloadAiComponents();
 
+        // Load built-in models
+        String[] platforms = { "deepseek", "openai", "openrouter" };
+        for (String platform : platforms) {
+            String modelsKey = "ai." + platform + ".models";
+            if (getConfig().isConfigurationSection(modelsKey)) {
+                ConfigurationSection section = getConfig().getConfigurationSection(modelsKey);
+                for (String key : section.getKeys(false)) {
+                    String modelName = section.getString(key);
+                    if (modelName != null && !modelName.equalsIgnoreCase("null")) {
+                        artificialintelligenceApi.registerModel(platform, modelName);
+                    }
+                }
+            }
+        }
+
+        // Load custom server models
+        if (getConfig().isConfigurationSection("ai.custom")) {
+            for (String server : getConfig().getConfigurationSection("ai.custom").getKeys(false)) {
+                String modelsKey = "ai.custom." + server + ".models";
+                if (getConfig().isConfigurationSection(modelsKey)) {
+                    ConfigurationSection section = getConfig().getConfigurationSection(modelsKey);
+                    for (String key : section.getKeys(false)) {
+                        String modelName = section.getString(key);
+                        if (modelName != null && !modelName.equalsIgnoreCase("null")) {
+                            artificialintelligenceApi.registerModel("customurl", server + ":" + modelName);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Check for updates from GitHub
         MCEngineApi.checkUpdate(this, getLogger(), "github", "MCEngine", "artificialintelligence-original", getConfig().getString("github.token", "null"));
     }
 
@@ -56,26 +92,29 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
         HandlerList.unregisterAll(this);
     }
 
+    /**
+     * Reloads AI components including the API, thread pool, commands, and listeners.
+     */
     public void reloadAiComponents() {
         try {
+            // Unregister all existing listeners
             HandlerList.unregisterAll(this);
             reloadConfig();
 
+            // Init API and systems
             artificialintelligenceApi = new MCEngineArtificialIntelligenceApi(this);
             threadPoolManager = new ThreadPoolManager(this);
             functionCallingLoader = new FunctionCallingLoader(this);
 
             PluginManager pluginManager = getServer().getPluginManager();
 
-            if (getConfig().getBoolean("conversation.keep", false)) {
-                pluginManager.registerEvents(
-                    new MCEngineArtificialIntelligenceCommonListenerConversation(
-                        this, functionCallingLoader
-                    ),
-                    this
-                );
-            }
+            // Register chat listener for AI conversations
+            pluginManager.registerEvents(
+                new MCEngineArtificialIntelligenceCommonListenerConversation(this),
+                this
+            );
 
+            // Register /ai command and tab completer
             getCommand("ai").setExecutor(
                 new MCEngineArtificialIntelligenceCommonCommand(this, this::reloadAiComponents)
             );
