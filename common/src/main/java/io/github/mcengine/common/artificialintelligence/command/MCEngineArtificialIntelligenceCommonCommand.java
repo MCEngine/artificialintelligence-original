@@ -13,6 +13,7 @@ import org.bukkit.plugin.Plugin;
  * Command executor for the /ai command.
  * This allows players to start or restart an AI conversation session with a specified platform and model.
  * If a platform and model are not specified, it continues using the previous session data.
+ * Includes a /ai reload subcommand to reload AI components.
  */
 public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecutor {
 
@@ -35,6 +36,18 @@ public class MCEngineArtificialIntelligenceCommonCommand implements CommandExecu
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        // Handle /ai reload
+        if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+            if (!sender.hasPermission("mcengine.ai.reload")) {
+                sender.sendMessage(ChatColor.RED + "You don't have permission to reload AI components.");
+                return true;
+            }
+
+            reloadTask.run();
+            sender.sendMessage(ChatColor.GREEN + "AI components reloaded.");
+            return true;
+        }
+
         if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "Only players can use this command.");
             return true;

@@ -12,7 +12,8 @@ import java.util.Map;
 
 /**
  * Tab completer for the /ai command.
- * Suggests platform names and model names based on registered models.
+ * Suggests platform names and model names based on registered models,
+ * and includes "reload" subcommand.
  */
 public class MCEngineArtificialIntelligenceCommonTabCompleter implements TabCompleter {
 
@@ -30,20 +31,25 @@ public class MCEngineArtificialIntelligenceCommonTabCompleter implements TabComp
         Map<String, Map<String, ?>> models = MCEngineArtificialIntelligenceApiUtilAi.getAllModels();
 
         if (args.length == 1) {
-            // Suggest available platforms
             String partial = args[0].toLowerCase();
-            List<String> platforms = new ArrayList<>();
+            List<String> suggestions = new ArrayList<>();
+
+            // Include "reload" as a top-level suggestion
+            if ("reload".startsWith(partial)) {
+                suggestions.add("reload");
+            }
+
             for (String platform : models.keySet()) {
                 if (platform.toLowerCase().startsWith(partial)) {
-                    platforms.add(platform);
+                    suggestions.add(platform);
                 }
             }
-            Collections.sort(platforms);
-            return platforms;
+
+            Collections.sort(suggestions);
+            return suggestions;
         }
 
-        if (args.length == 2) {
-            // Suggest models for the given platform
+        if (args.length == 2 && !args[0].equalsIgnoreCase("reload")) {
             String platform = args[0];
             if (!models.containsKey(platform)) return Collections.emptyList();
 
