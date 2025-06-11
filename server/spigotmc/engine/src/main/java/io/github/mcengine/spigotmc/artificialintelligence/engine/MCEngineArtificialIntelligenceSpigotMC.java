@@ -8,6 +8,7 @@ import io.github.mcengine.common.artificialintelligence.ThreadPoolManager;
 import io.github.mcengine.common.artificialintelligence.command.MCEngineArtificialIntelligenceCommonCommand;
 import io.github.mcengine.common.artificialintelligence.listener.MCEngineArtificialIntelligenceCommonListenerConversation;
 import io.github.mcengine.common.artificialintelligence.tabcompleter.MCEngineArtificialIntelligenceCommonTabCompleter;
+import io.github.mcengine.spigotmc.artificialintelligence.engine.util.MCEngineArtificialIntelligenceSpigotMCUtil;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
@@ -44,6 +45,8 @@ public class MCEngineArtificialIntelligenceSpigotMC extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+        MCEngineArtificialIntelligenceSpigotMCUtil.createSimpleFile(this);
 
         // Initialize and register AI systems
         reloadAiComponents();
