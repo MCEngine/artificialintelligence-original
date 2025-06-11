@@ -9,14 +9,14 @@ group = 'io.github.mcengine'
 
 ext {
     /* Name */
-    git_user_name = System.getenv('GIT_USER_NAME') ?: 'null'
-    git_organization_name = System.getenv('GIT_ORGANIZATION_NAME') ?: 'MCEngine'
-    git_repository_name = System.getenv('GIT_REPOSITORY_NAME') ?: 'artificialintelligence'
+    user_git_name = System.getenv('USER_GIT_NAME') ?: 'null'
+    git_user_token = System.getenv('USER_GITHUB_TOKEN') ?: 'null'
 
-    /* Token */
-    git_user_token = System.getenv('GIT_USER_TOKEN') ?: 'null'
-    git_organization_token = System.getenv('GIT_ORGANIZATION_TOKEN') ?: 'null'
-    git_repository_token = System.getenv('GIT_REPOSITORY_TOKEN') ?: 'null'
+    organization_name = System.getenv('ORGANIZATION_NAME') ?: 'MCEngine'
+    organization_token = System.getenv('ORGANIZATION_TOKEN') ?: 'null'
+
+    repository_name = System.getenv('REPOSITORY_NAME') ?: 'artificialintelligence-original'
+    repository_token = System.getenv('REPOSITORY_TOKEN') ?: 'null'
 
     /* Project Information */
     jarName = System.getenv('PROJECT_NAME') ?: 'MCEngineArtificialIntelligence'
@@ -91,12 +91,10 @@ subprojects {
             repositories {
                 maven {
                     name = 'GitHubPackages'
-                    url = uri("https://maven.pkg.github.com/${project.git_organization_name}/${project.git_repository_name}")
+                    url = uri("https://maven.pkg.github.com/${project.organization_name}/${project.repository_name}")
                     credentials {
-                        username = project.git_user_name
-                        password = project.git_user_token
-                                ?: project.git_repository_token
-                                ?: project.git_organization_token
+                        username = project.user_git_name
+                        password = project.git_user_token ?: project.repository_token ?: project.organization_token
                     }
                 }
             }
@@ -106,12 +104,12 @@ subprojects {
 
                     pom {
                         name = 'MCEnginebackpack'
-                        url = "https://github.com/${project.git_organization_name}/${project.git_repository_name}"
+                        url = "https://github.com/${project.organization_name}/${project.repository_name}"
 
                         scm {
-                            connection = "scm:git:git://github.com/${project.git_organization_name}/${project.git_repository_name}.git"
-                            developerConnection = "scm:git:ssh://github.com:${project.git_organization_name}/${project.git_repository_name}.git"
-                            url = "https://github.com/${project.git_organization_name}/${project.git_repository_name}"
+                            connection = "scm:git:git://github.com/${project.organization_name}/${project.repository_name}.git"
+                            developerConnection = "scm:git:ssh://github.com:${project.organization_name}/${project.repository_name}.git"
+                            url = "https://github.com/${project.organization_name}/${project.repository_name}"
                         }
 
                         developers {
