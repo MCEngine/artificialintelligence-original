@@ -1,4 +1,4 @@
-package io.github.mcengine.api.artificialintelligence;
+package io.github.mcengine.common.artificialintelligence;
 
 /**
  * Interface for AI response providers.

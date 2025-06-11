@@ -1,4 +1,4 @@
-package io.github.mcengine.api.artificialintelligence.functions.calling;
+package io.github.mcengine.common.artificialintelligence.functions.calling;
 
 import java.util.List;
 

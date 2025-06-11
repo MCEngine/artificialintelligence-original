@@ -1,4 +1,4 @@
-package io.github.mcengine.api.artificialintelligence;
+package io.github.mcengine.common.artificialintelligence;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

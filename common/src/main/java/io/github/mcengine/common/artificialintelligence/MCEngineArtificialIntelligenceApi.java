@@ -1,4 +1,4 @@
-package io.github.mcengine.api.artificialintelligence;
+package io.github.mcengine.common.artificialintelligence;
 
 import io.github.mcengine.api.artificialintelligence.FunctionCallingLoader;
 import io.github.mcengine.api.artificialintelligence.model.*;

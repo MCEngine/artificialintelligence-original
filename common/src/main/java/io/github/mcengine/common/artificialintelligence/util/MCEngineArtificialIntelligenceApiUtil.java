@@ -1,4 +1,4 @@
-package io.github.mcengine.api.artificialintelligence.util;
+package io.github.mcengine.common.artificialintelligence.util;
 
 import java.util.logging.Logger;
 
